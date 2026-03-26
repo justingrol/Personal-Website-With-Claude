@@ -1,0 +1,9 @@
+📁 DOSSIER IMAGES
+=================
+Mets tes images ici et renomme-les comme suit :
+
+  photo-justin.jpg  ← ta photo de profil
+  logo.png          ← un logo si tu en as un
+
+Ensuite dis à Claude : "Ajoute ma photo dans le hero du site"
+et envoie ta photo dans le chat — il s'occupera du reste!
