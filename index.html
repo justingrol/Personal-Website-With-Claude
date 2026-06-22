@@ -154,6 +154,36 @@
     100% { transform: translate(60px, 60px); }
   }
 
+  .hero-portrait {
+    width: 168px;
+    height: 168px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 28px;
+    border: 1px solid var(--gold);
+    box-shadow: 0 0 0 4px var(--gold-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark3);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.1s forwards;
+  }
+  .hero-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-portrait-fallback {
+    display: none;
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+  .hero-portrait.empty .hero-portrait-fallback { display: block; }
+
   .hero-left {
     position: relative;
     z-index: 2;
@@ -907,15 +937,19 @@
   <div class="hero-grid"></div>
 
   <div class="hero-left">
+    <div class="hero-portrait" id="heroPortrait">
+      <img src="portrait.jpg" alt="Justin Groleau" onerror="this.style.display='none'; this.parentElement.classList.add('empty');">
+      <span class="hero-portrait-fallback">JG</span>
+    </div>
     <div class="hero-tag">Finance · Private Equity · M&amp;A</div>
     <h1 class="hero-name">
       Justin<br><span>Groleau</span>
     </h1>
     <p class="hero-role">B.B.A. Finance &amp; Management · Bishop's University</p>
     <p class="hero-desc">
-      Aspiring PE &amp; M&amp;A professional with hands-on financial modeling experience,
-      international exposure across three continents, and a relentless drive to understand
-      what drives business value.
+      Aspiring professional in PE, M&amp;A, or wealth management with hands-on financial
+      modeling experience, international exposure across three continents, and a relentless
+      drive to understand what drives business value.
     </p>
     <div class="hero-btns">
       <a href="#deals" class="btn-primary">View Deal Flow</a>
@@ -926,7 +960,7 @@
   <div class="hero-right">
     <div class="hero-stats">
       <div class="stat-card">
-        <div class="stat-num">3+</div>
+        <div class="stat-num">1</div>
         <div class="stat-label">Financial Models</div>
       </div>
       <div class="stat-card">
@@ -935,7 +969,7 @@
       </div>
       <div class="stat-card">
         <div class="stat-num">2026</div>
-        <div class="stat-label">CFA Level I</div>
+        <div class="stat-label">Fonds d'investissement du Canada</div>
       </div>
       <div class="stat-card">
         <div class="stat-num">BBA</div>
@@ -959,7 +993,6 @@
     <span><em>Harvard · Alternative Investments</em></span>
     <span>Monash University · Australia</span>
     <span><em>Bishop's University</em></span>
-    <span>CFA Candidate 2026</span>
     <span>CBV · CM&amp;AA · CAIA</span>
     <span><em>École d'Entrepreneurship de Beauce</em></span>
     <span>PE · Private Equity</span>
@@ -995,30 +1028,6 @@
         <span class="deal-tag">Sensitivity Analysis</span>
       </div>
     </div>
-
-    <div class="deal-card">
-      <div class="deal-corner"></div>
-      <div class="deal-badge badge-ma">M&A Model</div>
-      <h3 class="deal-title">Rocket Companies + Redfin: Strategic M&A Merger</h3>
-      <p class="deal-desc">All-stock acquisition modeling exercise combining a major mortgage platform with a large digital real-estate brokerage. Analysis covers purchase price, exchange ratio, pro forma ownership, revenue synergies, integration costs, and accretion testing.</p>
-      <div class="deal-meta">
-        <span class="deal-tag">2025</span>
-        <span class="deal-tag">Accretion / Dilution</span>
-        <span class="deal-tag badge-wip" style="color:var(--red); border: none; font-family: 'DM Mono'; font-size:10px; letter-spacing:0.1em;">● In Progress</span>
-      </div>
-    </div>
-
-    <div class="deal-card">
-      <div class="deal-corner"></div>
-      <div class="deal-badge badge-lbo">LBO Model</div>
-      <h3 class="deal-title">Clearlake + Dun &amp; Bradstreet: Take-Private LBO</h3>
-      <p class="deal-desc">PE take-private case study modeling a full sponsor acquisition. Covers sources &amp; uses, debt capacity, cash flow sweep, amortization schedules, and 5-year exit testing with IRR/MOIC analysis across multiple operating and exit scenarios.</p>
-      <div class="deal-meta">
-        <span class="deal-tag">2025</span>
-        <span class="deal-tag">IRR / MOIC</span>
-        <span class="deal-tag" style="color:var(--red); font-family: 'DM Mono'; font-size:10px; letter-spacing:0.1em;">● In Progress</span>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -1035,10 +1044,6 @@
       <div class="skill-group reveal">
         <h3>Financial Modeling &amp; Analysis</h3>
         <div class="skill-bar-item">
-          <div class="skill-bar-label"><span>LBO / M&A Modeling</span><span class="skill-bar-pct">78%</span></div>
-          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="78"></div></div>
-        </div>
-        <div class="skill-bar-item">
           <div class="skill-bar-label"><span>DCF &amp; Valuation</span><span class="skill-bar-pct">80%</span></div>
           <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="80"></div></div>
         </div>
@@ -1047,8 +1052,8 @@
           <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="85"></div></div>
         </div>
         <div class="skill-bar-item">
-          <div class="skill-bar-label"><span>Real Estate Modeling</span><span class="skill-bar-pct">72%</span></div>
-          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="72"></div></div>
+          <div class="skill-bar-label"><span>Investment Fund</span><span class="skill-bar-pct">75%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="75"></div></div>
         </div>
       </div>
 
@@ -1089,9 +1094,9 @@
             <div class="cert-year">2026</div>
           </div>
           <div class="cert-card">
-            <div class="cert-inst">Champlain CEGEP</div>
-            <div class="cert-name">Commerce Profile Diploma</div>
-            <div class="cert-year">2023</div>
+            <div class="cert-inst">CSI</div>
+            <div class="cert-name">Fonds d'investissement du Canada</div>
+            <div class="cert-year">2026</div>
           </div>
         </div>
       </div>
@@ -1100,20 +1105,12 @@
         <h3>Designations in Progress / Planned</h3>
         <div class="certs-grid">
           <div class="cert-card" style="border-color: rgba(201,168,76,0.2);">
-            <div class="cert-inst" style="color:var(--accent);">2026 →</div>
-            <div class="cert-name">CFA Level I</div>
-          </div>
-          <div class="cert-card" style="border-color: rgba(201,168,76,0.2);">
             <div class="cert-inst" style="color:var(--accent);">Planned</div>
             <div class="cert-name">CBV · CAIA · CM&AA</div>
           </div>
           <div class="cert-card" style="border-color: rgba(201,168,76,0.2);">
             <div class="cert-inst" style="color:var(--accent);">Planned</div>
-            <div class="cert-name">FMI Financial Modeling</div>
-          </div>
-          <div class="cert-card" style="border-color: rgba(201,168,76,0.2);">
-            <div class="cert-inst" style="color:var(--accent);">2026 →</div>
-            <div class="cert-name">Fonds d'investissement du Québec</div>
+            <div class="cert-name">Certificate in Financial Planning</div>
           </div>
         </div>
       </div>
@@ -1219,6 +1216,12 @@
           <div class="timeline-event">École d'Entrepreneurship de Beauce (EEB)</div>
           <div class="timeline-detail">SIJE program. Built a network of ambitious, driven peers. Strengthened leadership, collaboration, and entrepreneurial mindset.</div>
         </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">May 2026</div>
+          <div class="timeline-event">Certificate — Fonds d'investissement du Canada (CSI)</div>
+          <div class="timeline-detail">Completed the Canadian Securities Institute's Investment Funds in Canada certificate.</div>
+        </div>
       </div>
     </div>
 
@@ -1239,6 +1242,12 @@
             <div class="timeline-year">Summer 2026</div>
             <div class="timeline-event">CFA Level I &amp; BMO Internship</div>
             <div class="timeline-detail">Beginning the CFA while pursuing a BMO internship in an investment client-facing role for hands-on advisory exposure.</div>
+          </div>
+          <div class="timeline-item future">
+            <div class="timeline-dot" style="left:-5px;"></div>
+            <div class="timeline-year">2026 – 2027</div>
+            <div class="timeline-event">Certificate in Financial Planning</div>
+            <div class="timeline-detail">Pursuing the Financial Planning designation to broaden client advisory and wealth management expertise.</div>
           </div>
           <div class="timeline-item future">
             <div class="timeline-dot" style="left:-5px;"></div>
@@ -1281,7 +1290,7 @@
         My pivot into finance was concrete, not theoretical. A Real Estate Economics course at <strong>Monash University in Australia</strong> turned investing from an interest into a true direction. I built my first full financial model there, then road-tripped across the continent — coast to desert — returning home more focused, resilient, and intentional than I'd ever been.
       </p>
       <p>
-        Today I'm completing a <strong>double B.B.A. in Finance &amp; Management at Bishop's University</strong>, building hands-on modeling experience (LBO, M&A, RE), and actively assembling the designation stack — CFA, CBV, CAIA, CM&amp;AA — to compete for roles in <strong>private equity and M&A advisory</strong>.
+        Today I'm completing a <strong>double B.B.A. in Finance &amp; Management at Bishop's University</strong>, but I'm someone with wide-ranging curiosity — drawn to <strong>finance, AI, health &amp; fitness, and travel</strong>. The certifications and designations I'm exploring — CFA, CBV, CAIA, CM&amp;AA, the Certificate in Financial Planning — reflect that curiosity more than a fixed checklist. I won't necessarily complete all of them; depending on where life takes me, they're simply subjects I'm genuinely interested in and would be glad to pursue.
       </p>
       <p>
         I also work at <strong>JL Groleau</strong> supporting project valuation, AI integration, and operational improvements — because I believe technical credentials and real-world judgment need to grow together.
