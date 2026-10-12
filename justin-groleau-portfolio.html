@@ -384,7 +384,8 @@
     max-width: 1300px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* Four projects: two by two, so no cell is left empty. */
+    grid-template-columns: repeat(2, 1fr);
     gap: 2px;
     background: var(--text-muted);
   }
