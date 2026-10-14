@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title data-i18n="meta.title">Justin Groleau — Finance & Investments</title>
 <script>
   // The visitor's language, shared with the 3D trail through
@@ -39,14 +39,26 @@
     --casing-dark: #A79F87;
     --glass: #1A1207;       /* warm CRT glass */
     --amber: #FFB23E;
-    --amber-dim: #B37A26;
-    --amber-soft: #C98B35;
+    --amber-dim: #C78C31;
+    --amber-soft: #D69A45;
+    --placeholder: #B98940;
     --up: #6FE08A;
     --down: #FF6B57;
     --key-text: #3B3628;
     --frame: 22px;          /* the casing round the screen */
     --status-h: 34px;
     --keys-h: 64px;         /* the casing under the screen, keys included */
+    /* On an iPhone the page reaches under the home indicator and the
+       notch (viewport-fit=cover); the casing grows by the safe areas so the
+       keys and the text stay clear of them. */
+    --safe-t: env(safe-area-inset-top, 0px);
+    --safe-r: env(safe-area-inset-right, 0px);
+    --safe-b: env(safe-area-inset-bottom, 0px);
+    --safe-l: env(safe-area-inset-left, 0px);
+    --ft: calc(var(--frame) + var(--safe-t));
+    --fr: calc(var(--frame) + var(--safe-r));
+    --fl: calc(var(--frame) + var(--safe-l));
+    --fb: calc(var(--keys-h) + var(--frame) - 16px + var(--safe-b));  /* under the screen */
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -55,8 +67,8 @@
     scroll-behavior: smooth;
     background: var(--casing);
     /* A section a key jumps to lands below the status bar, above the keys. */
-    scroll-padding-top: calc(var(--frame) + var(--status-h) + 16px);
-    scroll-padding-bottom: calc(var(--keys-h) + var(--frame));
+    scroll-padding-top: calc(var(--ft) + var(--status-h) + 16px);
+    scroll-padding-bottom: calc(var(--fb) + 16px);
   }
 
   body {
@@ -65,7 +77,7 @@
     font: 400 15px/1.6 'IBM Plex Mono', ui-monospace, monospace;
     text-shadow: 0 0 6px rgba(255, 178, 62, 0.35);
     overflow-x: hidden;
-    padding: calc(var(--frame) + var(--status-h)) var(--frame) calc(var(--keys-h) + var(--frame));
+    padding: calc(var(--ft) + var(--status-h)) var(--fr) calc(var(--fb) + 16px) var(--fl);
   }
 
   ::selection { background: var(--amber); color: var(--glass); text-shadow: none; }
@@ -76,24 +88,31 @@
   /* The casing: everything outside the rounded screen is painted beige. */
   .term-frame, .term-scan {
     position: fixed;
-    inset: var(--frame) var(--frame) calc(var(--keys-h) + var(--frame) - 16px);
+    inset: var(--ft) var(--fr) var(--fb) var(--fl);
     border-radius: 18px / 22px;
     pointer-events: none;
   }
   .term-frame {
     z-index: 40;
-    box-shadow: 0 0 0 200vmax var(--casing), inset 0 0 0 3px #0D0904, inset 0 0 80px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 0 200vmax var(--casing), inset 0 0 0 3px #0D0904, inset 0 0 48px rgba(0, 0, 0, 0.55);
   }
   .term-scan {
     z-index: 41;
-    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0 1px, transparent 1px 3px);
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 3px);
   }
+
+  /* The casing is solid: a tap on it reaches nothing under it. */
+  .term-casing span { position: fixed; z-index: 43; }
+  .term-casing span:nth-child(1) { top: 0; left: 0; right: 0; height: var(--ft); }
+  .term-casing span:nth-child(2) { bottom: 0; left: 0; right: 0; height: var(--fb); }
+  .term-casing span:nth-child(3) { top: 0; bottom: 0; left: 0; width: var(--fl); }
+  .term-casing span:nth-child(4) { top: 0; bottom: 0; right: 0; width: var(--fr); }
 
   /* The status bar: who, what, and the time in Québec. */
   .term-status {
     position: fixed;
     z-index: 42;
-    top: var(--frame); left: var(--frame); right: var(--frame);
+    top: var(--ft); left: var(--fl); right: var(--fr);
     height: var(--status-h);
     display: flex;
     align-items: center;
@@ -114,7 +133,7 @@
   .term-keys {
     position: fixed;
     z-index: 60;
-    left: var(--frame); right: var(--frame); bottom: 14px;
+    left: var(--fl); right: var(--fr); bottom: calc(14px + var(--safe-b));
     height: 46px;
     display: flex;
     gap: 8px;
@@ -183,11 +202,10 @@
   :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
   .key:focus-visible { outline-color: var(--key-text); }
 
-  @media (max-width: 760px) {
-    :root { --frame: 8px; --status-h: 30px; --keys-h: 62px; }
-    .term-status { gap: 16px; padding: 0 14px; font-size: 18px; }
+  /* Tablets and phones: the section keys scroll, the 3D key and FR | EN
+     stay pinned, the status bar keeps only the symbol and the time. */
+  @media (max-width: 960px) {
     .term-status .hide-phone { display: none; }
-    .term-keys { bottom: 8px; gap: 6px; height: 42px; }
     .keys-scroll { overflow-x: auto; scrollbar-width: none; }
     .keys-scroll::-webkit-scrollbar { display: none; }
     .keys-scroll .key { flex: 0 0 auto; min-width: 86px; }
@@ -195,10 +213,28 @@
     .keys-pinned .key-linkedin { display: none; }
     .key.nav-lang { min-width: 0; }
   }
+  @media (max-width: 760px) {
+    :root { --frame: 8px; --status-h: 30px; --keys-h: 62px; }
+    .term-frame { box-shadow: 0 0 0 200vmax var(--casing), inset 0 0 0 2px #0D0904, inset 0 0 20px rgba(0, 0, 0, 0.45); }
+    .term-status { gap: 16px; padding: 0 14px; font-size: 18px; }
+    .term-keys { bottom: calc(8px + var(--safe-b)); gap: 6px; height: 42px; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  /* On paper: the content, dark on white, without the terminal. */
+  @media print {
+    .term-frame, .term-scan, .term-casing, .term-status, .term-keys, .ticker-wrap, .chart, .hero-btns, .contact-form { display: none !important; }
+    html, body { background: #fff !important; }
+    body { padding: 0; }
+    *, *::before, *::after { color: #1A1207 !important; text-shadow: none !important; box-shadow: none !important; }
+    .section-num { background: none; border: 1px solid #1A1207; }
+    .hero-name::after { display: none; }
+    section, #deals, #skills, #about, #hero, footer { max-width: none; padding: 16px 0; }
+    .deal-card, .timeline-item, .cert-card, .psych-card, .skill-bar-item { break-inside: avoid; }
   }
 
   /* A French page waits for its text (see the script in <head>). */
@@ -339,6 +375,9 @@
   @media (max-width: 760px) {
     section, #deals, #skills, #about { padding: 40px 18px; }
     .section-title { font-size: 28px; }
+  }
+  /* Up to a tablet's width the four columns are too narrow: rows stack. */
+  @media (max-width: 960px) {
     .blotter-head { display: none; }
     .deal-card { grid-template-columns: auto 1fr; gap: 4px 14px; padding: 14px 4px; }
     .deal-code { grid-row: 1; }
@@ -459,7 +498,7 @@
     font: 400 15px/1.4 'IBM Plex Mono', ui-monospace, monospace;
     text-shadow: none;
   }
-  .form-input::placeholder, .form-textarea::placeholder { color: #A57A33; }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--placeholder); }
   .form-input:focus, .form-textarea:focus { border-color: var(--amber); outline: 2px solid var(--amber); outline-offset: 1px; }
   .form-textarea { height: 120px; resize: vertical; }
   .form-submit { align-self: flex-start; }
@@ -530,6 +569,7 @@
 <!-- Custom Cursor -->
 <div class="term-frame" aria-hidden="true"></div>
 <div class="term-scan" aria-hidden="true"></div>
+<div class="term-casing" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 
 <!-- STATUS BAR -->
 <div class="term-status">
