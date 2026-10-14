@@ -297,123 +297,69 @@
     .hero-position { font-size: 23px; }
   }
 
-  /* ========== SECTION HEADER ========== */
+  /* ========== SECTION HEADER: the section's key, its title, a rule ========== */
   .section-header {
     display: flex;
-    align-items: flex-end;
-    gap: 24px;
-    margin-bottom: 64px;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 26px;
   }
   .section-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--gold);
-    letter-spacing: 0.2em;
-    padding-bottom: 4px;
+    padding: 3px 9px 1px;
+    background: var(--amber);
+    color: var(--glass);
+    font: 400 22px/1 'VT323', ui-monospace, monospace;
+    text-shadow: none;
   }
   .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 4vw, 52px);
-    font-weight: 700;
-    line-height: 1.1;
+    font: 400 34px/1 'VT323', ui-monospace, monospace;
+    text-transform: uppercase;
   }
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, var(--text-muted), transparent);
-    margin-bottom: 8px;
-  }
+  .section-line { flex: 1; border-top: 1px dashed var(--amber-dim); }
 
   /* ========== SECTIONS ========== */
-  section {
-    padding: 100px 64px;
-    max-width: 1400px;
+  section, #deals, #skills, #about {
+    max-width: 1240px;
     margin: 0 auto;
+    padding: 56px 34px;
   }
 
-  /* ========== DEAL FLOW / PROJECTS ========== */
-  #deals {
-    background: var(--dark2);
-    max-width: 100%;
-    padding: 100px;
-  }
-  #deals > * { max-width: 1300px; margin-left: auto; margin-right: auto; }
-  #deals .section-header { max-width: 1300px; margin: 0 auto 64px; }
-
-  .deals-grid {
-    max-width: 1300px;
-    margin: 0 auto;
+  /* ========== PROJECTS: a blotter ========== */
+  .blotter-head, .deal-card {
     display: grid;
-    /* Three projects: one row of three, so no cell is left empty. */
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--text-muted);
+    grid-template-columns: 10ch minmax(0, 1fr) 17ch 24ch;
+    gap: 0 18px;
+    align-items: start;
   }
-
-  .deal-card {
-    background: var(--dark);
-    padding: 48px 40px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.4s ease, background 0.3s;
-  }
-  .deal-card:hover { background: var(--dark3); transform: translateY(-4px); }
-
-  .deal-badge {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
+  .blotter-head {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--amber-dim);
+    font: 400 20px/1 'VT323', ui-monospace, monospace;
+    color: var(--amber-dim);
     text-transform: uppercase;
-    padding: 4px 10px;
-    margin-bottom: 28px;
   }
-  .badge-ma { border: 1px solid var(--gold); color: var(--gold); }
-  .badge-lbo { border: 1px solid var(--accent); color: var(--accent); }
-  .badge-re { border: 1px solid #A78BFA; color: #A78BFA; }
-  .badge-wip {
-    background: rgba(229,90,78,0.15);
-    border: 1px solid var(--red);
-    color: var(--red);
-  }
-
-  .deal-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: 16px;
-  }
-
-  .deal-desc {
-    font-size: 13px;
-    line-height: 1.8;
-    color: var(--text-dim);
-    margin-bottom: 32px;
-  }
-
-  .deal-meta {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  .deal-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .deal-tag::before { content: '—'; color: var(--text-muted); }
-
-  .deal-corner {
-    position: absolute;
-    top: 0; right: 0;
-    width: 0; height: 0;
-    border-left: 40px solid transparent;
-    border-top: 40px solid var(--gold-dim);
+  .deal-card { padding: 14px 10px; border-bottom: 1px dashed rgba(179, 122, 38, 0.4); }
+  /* The row under the pointer, in reverse video, as a terminal selects it. */
+  .deal-card:hover { background: var(--amber); color: var(--glass); text-shadow: none; }
+  .deal-card:hover .deal-desc, .deal-card:hover .deal-badge, .deal-card:hover .deal-tag { color: #4A2E08; }
+  .deal-code { grid-column: 1; grid-row: 1 / span 2; font: 400 24px/1 'VT323', ui-monospace, monospace; white-space: nowrap; }
+  .deal-title { grid-column: 2; grid-row: 1; font: 500 15px/1.45 'IBM Plex Mono', ui-monospace, monospace; }
+  .deal-desc { grid-column: 2; grid-row: 2; margin-top: 6px; max-width: 72ch; font-size: 13.5px; line-height: 1.6; color: var(--amber-soft); }
+  .deal-badge { grid-column: 3; grid-row: 1 / span 2; color: var(--amber-soft); }
+  .deal-meta { grid-column: 4; grid-row: 1 / span 2; }
+  .deal-tag { color: var(--amber-soft); }
+  .deal-tag + .deal-tag::before { content: ' / '; }
+  @media (max-width: 760px) {
+    section, #deals, #skills, #about { padding: 40px 18px; }
+    .section-title { font-size: 28px; }
+    .blotter-head { display: none; }
+    .deal-card { grid-template-columns: auto 1fr; gap: 4px 14px; padding: 14px 4px; }
+    .deal-code { grid-row: 1; }
+    .deal-badge { grid-column: 2; grid-row: 1; justify-self: end; text-align: right; }
+    .deal-title, .deal-desc, .deal-meta { grid-column: 1 / -1; }
+    .deal-title { grid-row: 2; }
+    .deal-desc { grid-row: 3; margin-top: 0; }
+    .deal-meta { grid-row: 4; }
   }
 
   /* ========== TIMELINE ========== */
@@ -794,13 +740,10 @@
     text-align: center;
   }
 
-  /* ========== SCROLL REVEAL ========== */
-  .reveal {
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  /* ========== NO SCROLL REVEAL ==========
+     Everything is on the screen from the start, as on a terminal; the
+     skill bars still fill when they come into view. */
+  .reveal, .timeline-item { opacity: 1; transform: none; }
 
   /* ========== THE TAPE ========== */
   .ticker-wrap { overflow: hidden; white-space: nowrap; padding: 4px 0; background: var(--amber); text-shadow: none; }
@@ -817,12 +760,10 @@
   /* ========== RESPONSIVE ========== */
   @media (max-width: 1024px) {
     #hero { grid-template-columns: 1fr; }
-    .deals-grid { grid-template-columns: 1fr; }
     .skills-layout { grid-template-columns: 1fr; }
     .contact-layout { grid-template-columns: 1fr; }
     .about-layout { grid-template-columns: 1fr; }
     .psych-grid { grid-template-columns: 1fr; }
-    #deals, #skills, #about, section { padding: 60px 24px; }
     .form-row { grid-template-columns: 1fr; }
     .timeline-layout { grid-template-columns: 1fr; gap: 56px; }
   }
@@ -956,14 +897,15 @@
 <!-- DEAL FLOW -->
 <div id="deals">
   <div class="section-header reveal">
-    <span class="section-num">01</span>
+    <span class="section-num">F1</span>
     <h2 class="section-title" data-i18n="deals.title">Projects</h2>
     <div class="section-line"></div>
   </div>
 
   <div class="deals-grid reveal">
+    <div class="blotter-head" aria-hidden="true"><span data-i18n="deals.col.code">Code</span><span data-i18n="deals.col.project">Project</span><span data-i18n="deals.col.sector">Sector</span><span data-i18n="deals.col.details">Details</span></div>
     <div class="deal-card">
-      <div class="deal-corner"></div>
+      <span class="deal-code" aria-hidden="true">MELB-RE</span>
       <div class="deal-badge badge-re" data-i18n="deals.melbourne.badge">Real Estate</div>
       <h3 class="deal-title" data-i18n="deals.melbourne.title">Melbourne CBD Property Case Study</h3>
       <p class="deal-desc" data-i18n="deals.melbourne.desc">Full feasibility model for a mixed-use CBD acquisition. Built in Excel to determine investment viability through NPV, IRR, and MIRR analysis. Dynamic sensitivity tables testing occupancy, refurbishment capex, and exit assumptions.</p>
@@ -975,7 +917,7 @@
     </div>
 
     <div class="deal-card">
-      <div class="deal-corner"></div>
+      <span class="deal-code" aria-hidden="true">TRAIL-3D</span>
       <div class="deal-badge badge-lbo">3D · Web</div>
       <h3 class="deal-title" data-i18n="deals.trail.title">Welcome to My Trail: 3D Portfolio</h3>
       <p class="deal-desc" data-i18n="deals.trail.desc">An interactive 3D portfolio: a Québec forest trail and a log cottage where each trail sign and object tells part of my story. Built in React and Three.js with AI-assisted development.</p>
@@ -987,7 +929,7 @@
     </div>
 
     <div class="deal-card">
-      <div class="deal-corner"></div>
+      <span class="deal-code" aria-hidden="true">BMO-FX</span>
       <div class="deal-badge badge-ma" data-i18n="deals.fund.badge">Data Visualization</div>
       <h3 class="deal-title">BMO Fund Explorer</h3>
       <p class="deal-desc" data-i18n="deals.fund.desc">An interactive visualization of BMO's investment funds, built to explore and compare them at a glance.</p>
@@ -1002,7 +944,7 @@
 <!-- SKILLS -->
 <div id="skills">
   <div class="section-header reveal">
-    <span class="section-num">02</span>
+    <span class="section-num">F2</span>
     <h2 class="section-title" data-i18n="skills.title">Technical Skills &amp; Credentials</h2>
     <div class="section-line"></div>
   </div>
@@ -1094,7 +1036,7 @@
 <!-- PSYCHOMETRIC -->
 <section id="psychometric">
   <div class="section-header reveal">
-    <span class="section-num">03</span>
+    <span class="section-num">F3</span>
     <h2 class="section-title" data-i18n="psych.title">Psychometric Profile</h2>
     <div class="section-line"></div>
   </div>
@@ -1119,7 +1061,7 @@
 <!-- TIMELINE -->
 <section id="timeline">
   <div class="section-header reveal">
-    <span class="section-num">04</span>
+    <span class="section-num">F4</span>
     <h2 class="section-title" data-i18n="journey.title">The Journey</h2>
     <div class="section-line"></div>
   </div>
@@ -1229,7 +1171,7 @@
 <!-- ABOUT -->
 <div id="about">
   <div class="section-header reveal">
-    <span class="section-num">05</span>
+    <span class="section-num">F5</span>
     <h2 class="section-title" data-i18n="about.title">About Justin</h2>
     <div class="section-line"></div>
   </div>
@@ -1281,7 +1223,7 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="section-header reveal">
-    <span class="section-num">06</span>
+    <span class="section-num">F6</span>
     <h2 class="section-title" data-i18n="contact.title">Let's Connect</h2>
     <div class="section-line"></div>
   </div>
@@ -1399,6 +1341,10 @@
     "ticker.monash": "Monash University · Australie",
 
     "deals.title": "Projets",
+    "deals.col.code": "Code",
+    "deals.col.project": "Projet",
+    "deals.col.sector": "Secteur",
+    "deals.col.details": "Détails",
     "deals.melbourne.badge": "Immobilier",
     "deals.melbourne.title": "Étude de cas : immeuble au centre-ville de Melbourne",
     "deals.melbourne.desc": "Modèle de faisabilité complet pour l'acquisition d'un immeuble à usage mixte au centre-ville. Conçu dans Excel pour établir la viabilité de l'investissement par l'analyse de la VAN, du TRI et du TRI modifié. Des tables de sensibilité dynamiques font varier le taux d'occupation, les dépenses de rénovation et les hypothèses de sortie.",
