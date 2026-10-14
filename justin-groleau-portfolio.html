@@ -217,258 +217,84 @@
   /* A French page waits for its text (see the script in <head>). */
   .i18n-pending body { visibility: hidden; }
 
-  /* ========== HERO ========== */
+  /* ========== HERO: a quote screen ========== */
   #hero {
-    min-height: 100vh;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    position: relative;
-    overflow: hidden;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 40px 34px 44px;
+    align-items: start;
   }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 70% at 70% 50%, rgba(201,168,76,0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(45,212,191,0.04) 0%, transparent 50%),
-      var(--dark);
-  }
-
-  /* Animated grid lines */
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
-    background-size: 60px 60px;
-    animation: gridShift 20s linear infinite;
-  }
-  @keyframes gridShift {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(60px, 60px); }
-  }
-
-  .hero-left {
-    position: relative;
-    z-index: 2;
+  .quote-head {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 120px 64px 80px;
-  }
-
-  .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.2em;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+    font: 400 26px/1.1 'VT323', ui-monospace, monospace;
+    color: var(--amber-dim);
     text-transform: uppercase;
-    margin-bottom: 32px;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.2s forwards;
   }
-  .hero-tag::before {
-    content: '';
-    width: 32px; height: 1px;
-    background: var(--accent);
-  }
-
   .hero-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(52px, 6vw, 88px);
-    font-weight: 900;
-    line-height: 0.95;
-    margin-bottom: 12px;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.4s forwards;
-  }
-  .hero-name span {
-    display: block;
-    color: var(--gold);
-    font-style: italic;
-  }
-
-  .hero-role {
-    font-size: 13px;
-    letter-spacing: 0.25em;
+    margin: 14px 0 8px;
+    font: 400 clamp(64px, 11vw, 138px)/0.86 'VT323', ui-monospace, monospace;
+    letter-spacing: -0.01em;
     text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 40px;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.6s forwards;
   }
-
-  .hero-desc {
-    font-size: 15px;
-    line-height: 1.8;
-    color: var(--text-dim);
-    max-width: 440px;
-    margin-bottom: 48px;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.8s forwards;
-  }
-
-  .hero-btns {
-    display: flex;
-    gap: 16px;
-    opacity: 0;
-    animation: fadeUp 0.8s 1s forwards;
-  }
-
-  .btn-primary {
-    background: var(--gold);
-    color: var(--dark);
-    padding: 14px 32px;
-    font-family: 'Syne', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.3s;
-    display: inline-block;
-  }
-  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
-
-  .btn-outline {
-    border: 1px solid var(--text-muted);
-    color: var(--text-dim);
-    padding: 14px 32px;
-    font-family: 'Syne', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.3s;
-    display: inline-block;
-  }
-  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-
-  /* The way into the 3D world, in the hero: a block of its own. */
-  .trail-cta {
-    display: block;
-    max-width: 440px;
-    margin-top: 28px;
-    padding: 20px 24px;
-    border: 1px solid var(--accent);
-    background: rgba(45,212,191,0.06);
-    text-decoration: none;
-    transition: background 0.3s, transform 0.3s;
-    opacity: 0;
-    animation: fadeUp 0.8s 1.1s forwards;
-  }
-  .trail-cta:hover { background: rgba(45,212,191,0.14); transform: translateY(-2px); }
-  .trail-cta-kicker {
-    display: block;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-  .trail-cta-label {
-    display: block;
-    font-family: 'Playfair Display', serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-  .trail-cta-line {
-    display: block;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text-dim);
-  }
-
-  .hero-right {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 120px 48px 80px;
-  }
-
-  /* Stats card */
-  .hero-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    background: var(--text-muted);
-    opacity: 0;
-    animation: fadeIn 1s 1.2s forwards;
-  }
-
-  .stat-card {
-    background: var(--dark2);
-    padding: 36px 32px;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s;
-  }
-  .stat-card:hover { background: var(--dark3); }
-  .stat-card::after {
+  /* The terminal's cursor, after the name: the page's one moving detail. */
+  .hero-name::after {
     content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; height: 2px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transition: transform 0.4s ease;
+    display: inline-block;
+    width: 0.42em;
+    height: 0.68em;
+    margin-left: 0.1em;
+    background: var(--amber);
+    box-shadow: 0 0 8px rgba(255, 178, 62, 0.5);
+    animation: caret 1.1s steps(1) infinite;
   }
-  .stat-card:hover::after { transform: scaleX(1); }
-
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    font-weight: 900;
-    color: var(--gold);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .stat-label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
+  @keyframes caret { 50% { opacity: 0; } }
+  .hero-position {
+    font: 400 26px/1.25 'VT323', ui-monospace, monospace;
     text-transform: uppercase;
-    color: var(--text-dim);
   }
-
-  .quote-card {
-    grid-column: 1 / -1;
-    background: var(--dark3);
-    padding: 32px;
-    border-left: 3px solid var(--gold);
+  .up { color: var(--up); text-shadow: 0 0 6px rgba(111, 224, 138, 0.45); }
+  .hero-desc { max-width: 60ch; margin: 18px 0 24px; color: #E9A64A; }
+  .hero-btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .trail-cta {
+    display: grid;
+    gap: 4px;
+    max-width: 480px;
+    margin-top: 26px;
+    padding: 14px 18px;
+    text-decoration: none;
   }
-  .quote-card p {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 14px;
-    line-height: 1.7;
-    color: var(--text-dim);
+  .trail-cta:hover { border-color: var(--up); background: rgba(111, 224, 138, 0.07); }
+  .trail-cta-kicker { font: 400 18px/1 'VT323', ui-monospace, monospace; color: var(--amber-dim); text-transform: uppercase; }
+  .trail-cta-label { font: 400 30px/1 'VT323', ui-monospace, monospace; color: var(--up); text-shadow: 0 0 6px rgba(111, 224, 138, 0.45); }
+  .trail-cta-line { font-size: 13.5px; color: var(--amber-soft); }
+  .hero-right { display: grid; gap: 16px; }
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--amber-dim); }
+  .stat-card {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    padding: 10px 14px;
+    border: 1px solid rgba(179, 122, 38, 0.45);
   }
-  .quote-card cite {
-    display: block;
-    margin-top: 12px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--gold);
-    font-style: normal;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  .stat-label { font: 400 18px/1.05 'VT323', ui-monospace, monospace; color: var(--amber-dim); text-transform: uppercase; }
+  .stat-num { margin-top: 4px; font: 400 46px/1 'VT323', ui-monospace, monospace; }
+  .stat-num.up::after { content: ' ▲'; font-size: 0.7em; }
+  .chart { margin: 0; padding: 10px 12px 4px; }
+  .chart svg { display: block; width: 100%; height: auto; }
+  .chart text { font-family: 'VT323', ui-monospace, monospace; font-size: 17px; fill: var(--amber); }
+  .chart .up text, .chart text.up { fill: var(--up); }
+  .quote-card { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; padding: 10px 14px; }
+  .quote-card p { font-size: 14px; color: var(--amber-soft); }
+  .quote-card cite { grid-column: 2; font: 400 18px/1 'VT323', ui-monospace, monospace; font-style: normal; color: var(--amber-dim); }
+  @media (max-width: 760px) {
+    #hero { gap: 28px; padding: 24px 18px 32px; }
+    .quote-head { font-size: 22px; }
+    .hero-position { font-size: 23px; }
   }
 
   /* ========== SECTION HEADER ========== */
@@ -976,28 +802,12 @@
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* ========== TICKER ========== */
-  .ticker-wrap {
-    background: var(--dark4);
-    border-top: 1px solid var(--text-muted);
-    border-bottom: 1px solid var(--text-muted);
-    overflow: hidden;
-    white-space: nowrap;
-    padding: 12px 0;
-  }
-  .ticker-content {
-    display: inline-block;
-    animation: ticker 30s linear infinite;
-  }
-  .ticker-content span {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    padding: 0 48px;
-  }
-  .ticker-content span em { color: var(--gold); font-style: normal; }
+  /* ========== THE TAPE ========== */
+  .ticker-wrap { overflow: hidden; white-space: nowrap; padding: 4px 0; background: var(--amber); text-shadow: none; }
+  .ticker-content { display: inline-block; animation: ticker 40s linear infinite; }
+  .ticker-content span { padding: 0 22px; font: 400 21px/1.2 'VT323', ui-monospace, monospace; color: var(--glass); text-transform: uppercase; }
+  .ticker-content span::before { content: '▲ '; color: #1E6B3A; }
+  .ticker-content span em { font-style: normal; }
 
   @keyframes ticker {
     0% { transform: translateX(0); }
@@ -1007,14 +817,12 @@
   /* ========== RESPONSIVE ========== */
   @media (max-width: 1024px) {
     #hero { grid-template-columns: 1fr; }
-    .hero-right { display: none; }
     .deals-grid { grid-template-columns: 1fr; }
     .skills-layout { grid-template-columns: 1fr; }
     .contact-layout { grid-template-columns: 1fr; }
     .about-layout { grid-template-columns: 1fr; }
     .psych-grid { grid-template-columns: 1fr; }
     #deals, #skills, #about, section { padding: 60px 24px; }
-    .hero-left { padding: 100px 24px 60px; }
     .form-row { grid-template-columns: 1fr; }
     .timeline-layout { grid-template-columns: 1fr; gap: 56px; }
   }
@@ -1053,24 +861,20 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-
   <div class="hero-left">
-    <h1 class="hero-name">
-      Justin<br><span>Groleau</span>
-    </h1>
-    <p class="hero-role" data-i18n="hero.role">B.B.A. Finance &amp; Management · Bishop's University</p>
+    <p class="quote-head"><span>JGRL</span><span class="hero-role" data-i18n="hero.role">B.B.A. Finance &amp; Management · Bishop's University</span></p>
+    <h1 class="hero-name">Justin<br>Groleau</h1>
+    <p class="hero-position"><span data-i18n="hero.position">Personal Banker Assistant, BMO</span> <span class="up">▲ IFIC 2026</span></p>
     <p class="hero-desc" data-i18n="hero.desc">
       Finance student and Personal Banker Assistant at BMO, drawn to real estate, M&amp;A and AI,
       with international exposure across three continents and a relentless drive to understand
       what drives business value.
     </p>
     <div class="hero-btns">
-      <a href="#deals" class="btn-primary" data-i18n="hero.viewProjects">View Projects</a>
-      <a href="#contact" class="btn-outline" data-i18n="hero.getInTouch">Get in Touch</a>
+      <a href="#deals" class="go-btn"><span aria-hidden="true">F1 &lt;GO&gt;</span><span data-i18n="hero.viewProjects">View Projects</span></a>
+      <a href="#contact" class="go-btn ghost"><span aria-hidden="true">F6</span><span data-i18n="hero.getInTouch">Get in Touch</span></a>
     </div>
-    <a href="/trail/" class="trail-cta" data-trail-link>
+    <a href="/trail/" class="trail-cta panel" data-trail-link>
       <span class="trail-cta-kicker" data-i18n="hero.trailKicker">Interactive 3D · Welcome to My Trail</span>
       <span class="trail-cta-label" data-i18n="hero.trailLabel">Enter my 3D world →</span>
       <span class="trail-cta-line" data-i18n="hero.trailLine">Walk a Québec forest trail through my story.</span>
@@ -1084,7 +888,7 @@
         <div class="stat-label" data-i18n="stats.projects">Projects</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num">4</div>
+        <div class="stat-num up">4</div>
         <div class="stat-label" data-i18n="stats.continents">Continents Explored</div>
       </div>
       <div class="stat-card">
@@ -1095,10 +899,28 @@
         <div class="stat-num">BBA</div>
         <div class="stat-label" data-i18n="stats.bba">Finance + Management</div>
       </div>
-      <div class="quote-card">
-        <p data-i18n="quote.text">"What students should be learning is how to value a business. That's what investing is all about."</p>
+    </div>
+    <figure class="chart panel">
+      <figcaption class="term-label" data-i18n="journey.chart">Journey 2004 – 2027</figcaption>
+      <svg viewBox="0 0 520 190" role="img" aria-label="My path from 2004 to 2027, in rising steps" data-i18n-aria-label="journey.chartAlt">
+        <g stroke="rgba(179,122,38,.35)" stroke-width="1">
+          <line x1="30" y1="20" x2="510" y2="20"/><line x1="30" y1="70" x2="510" y2="70"/><line x1="30" y1="120" x2="510" y2="120"/><line x1="30" y1="160" x2="510" y2="160"/>
+        </g>
+        <polyline fill="none" stroke="#FFB23E" stroke-width="2.5" points="30,158 120,150 190,138 250,120 300,112 360,92 400,74 430,60 455,48 480,38 505,26"/>
+        <g fill="#FFB23E">
+          <circle cx="30" cy="158" r="3.5"/><circle cx="250" cy="120" r="3.5"/><circle cx="360" cy="92" r="3.5"/><circle cx="430" cy="60" r="3.5"/><circle cx="505" cy="26" r="3.5" fill="#6FE08A"/>
+        </g>
+        <text x="34" y="180">2004 BEAUCEVILLE</text>
+        <text x="258" y="140" data-i18n="journey.chartEcuador">ECUADOR 2019</text>
+        <text x="354" y="86" text-anchor="end">MONASH 2025</text>
+        <text x="424" y="56" text-anchor="end">BMO 2026</text>
+        <text x="497" y="16" text-anchor="end" class="up">MBA LAVAL 2027 ▲</text>
+      </svg>
+    </figure>
+    <div class="quote-card panel">
+      <span class="term-label">NWS</span>
+      <p data-i18n="quote.text">"What students should be learning is how to value a business. That's what investing is all about."</p>
         <cite>— Warren Buffett</cite>
-      </div>
     </div>
   </div>
 </section>
@@ -1559,6 +1381,10 @@
     "hero.desc": "Étudiant en finance et adjoint aux services bancaires personnels chez BMO, attiré par l'immobilier, les fusions et acquisitions et l'IA, avec une expérience internationale sur trois continents et une volonté inlassable de comprendre ce qui fait la valeur d'une entreprise.",
     "hero.viewProjects": "Voir les projets",
     "hero.getInTouch": "Me contacter",
+    "hero.position": "Adjoint aux services bancaires personnels, BMO",
+    "journey.chart": "Parcours 2004 – 2027",
+    "journey.chartAlt": "Mon parcours de 2004 à 2027, en marches montantes",
+    "journey.chartEcuador": "ÉQUATEUR 2019",
     "hero.trailKicker": "3D interactif · Welcome to My Trail",
     "hero.trailLabel": "Entrer dans mon monde 3D →",
     "hero.trailLine": "Parcourez un sentier forestier du Québec au fil de mon histoire.",
