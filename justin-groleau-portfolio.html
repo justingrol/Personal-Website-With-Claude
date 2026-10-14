@@ -362,382 +362,151 @@
     .deal-meta { grid-row: 4; }
   }
 
-  /* ========== TIMELINE ========== */
-  .timeline-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-  }
-  #timeline { background: var(--dark); }
-
-  .timeline-wrapper {
-    position: relative;
-    padding-left: 40px;
-  }
-  .timeline-wrapper::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--gold), transparent);
-  }
-
+  /* ========== JOURNEY: a log of the tape ========== */
+  .timeline-layout { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; }
+  .timeline-col { margin-bottom: 14px; }
+  .timeline-wrapper { border-top: 1px solid var(--amber-dim); }
   .timeline-item {
     position: relative;
-    padding: 0 0 48px 40px;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-  .timeline-item.visible { opacity: 1; transform: translateX(0); }
-
-  .timeline-dot {
-    position: absolute;
-    left: -5px;
-    top: 6px;
-    width: 10px; height: 10px;
-    border: 2px solid var(--gold);
-    background: var(--dark);
-    border-radius: 50%;
-    transition: background 0.3s;
-  }
-  .timeline-item:hover .timeline-dot { background: var(--gold); }
-
-  .timeline-year {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--gold);
-    letter-spacing: 0.15em;
-    margin-bottom: 6px;
-  }
-  .timeline-event {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .timeline-detail {
-    font-size: 13px;
-    color: var(--text-dim);
-    line-height: 1.7;
-    max-width: 560px;
-  }
-
-  /* Future items */
-  .timeline-item.future .timeline-dot {
-    border-color: var(--accent);
-    background: rgba(45,212,191,0.1);
-  }
-  .timeline-item.future .timeline-year { color: var(--accent); }
-  .timeline-item.future .timeline-event { color: rgba(232,230,224,0.6); }
-
-  /* ========== SKILLS ========== */
-  #skills { background: var(--dark2); max-width: 100%; padding: 100px; }
-  #skills > * { max-width: 1300px; margin-left: auto; margin-right: auto; }
-  #skills .section-header { max-width: 1300px; margin: 0 auto 64px; }
-
-  .skills-layout {
-    max-width: 1300px;
-    margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    grid-template-columns: 2ch 15ch minmax(0, 1fr);
+    gap: 2px 12px;
+    padding: 12px 4px;
+    border-bottom: 1px dashed rgba(179, 122, 38, 0.4);
   }
+  .timeline-dot { grid-column: 1; grid-row: 1; }
+  .timeline-dot::before { content: '▶'; font-size: 11px; color: var(--amber-dim); }
+  .timeline-year { grid-column: 2; grid-row: 1 / span 2; font: 400 22px/1.05 'VT323', ui-monospace, monospace; text-transform: uppercase; }
+  .timeline-event { grid-column: 3; font-weight: 500; }
+  .timeline-detail { grid-column: 3; font-size: 13.5px; line-height: 1.6; color: var(--amber-soft); }
+  .timeline-item.future .timeline-dot::before { color: var(--up); }
+  .timeline-item.future .timeline-year { color: var(--up); text-shadow: 0 0 6px rgba(111, 224, 138, 0.45); }
 
-  .skill-group h3 {
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 24px;
-    font-weight: 400;
-  }
-
-  .skill-bar-item {
-    margin-bottom: 20px;
-  }
-  .skill-bar-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    margin-bottom: 8px;
-  }
-  .skill-bar-pct {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--gold);
-  }
-  .skill-bar-track {
-    height: 2px;
-    background: var(--dark4);
-    position: relative;
-    overflow: hidden;
-  }
+  /* ========== SKILLS: bars and holdings ========== */
+  .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .skill-group h3 { margin-bottom: 14px; font: 400 22px/1.1 'VT323', ui-monospace, monospace; color: var(--amber-dim); text-transform: uppercase; }
+  .skill-bar-item { margin-bottom: 16px; }
+  .skill-bar-label { display: flex; justify-content: space-between; gap: 14px; margin-bottom: 6px; font-size: 14px; }
+  .skill-bar-pct { font: 400 22px/1 'VT323', ui-monospace, monospace; }
+  .skill-bar-track { height: 14px; padding: 2px; border: 1px solid var(--amber-dim); }
   .skill-bar-fill {
+    width: 0;
     height: 100%;
-    background: linear-gradient(to right, var(--gold), var(--gold-light));
-    width: 0%;
-    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    background: repeating-linear-gradient(90deg, var(--amber) 0 10px, transparent 10px 12px);
+    transition: width 1.2s steps(24);
   }
-  .skill-bar-fill.accent {
-    background: linear-gradient(to right, var(--accent), #7DD3FC);
-  }
-
-  .certs-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 8px;
-  }
+  .skill-bar-fill.accent { background: repeating-linear-gradient(90deg, var(--up) 0 10px, transparent 10px 12px); }
+  .certs-grid { border-top: 1px solid var(--amber-dim); }
   .cert-card {
-    background: var(--dark);
-    padding: 20px;
-    border: 1px solid var(--dark4);
-    transition: border-color 0.3s;
-    position: relative;
-  }
-  .cert-card:hover { border-color: var(--gold); }
-  .cert-inst {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: var(--gold);
-    letter-spacing: 0.15em;
-    margin-bottom: 6px;
-  }
-  .cert-name {
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-  .cert-year {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  /* ========== PSYCHOMETRIC ========== */
-  #psychometric { background: var(--dark); }
-
-  .psych-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    background: var(--text-muted);
+    grid-template-columns: 15ch minmax(0, 1fr) auto;
+    gap: 14px;
+    align-items: baseline;
+    padding: 9px 4px;
+    border-bottom: 1px dashed rgba(179, 122, 38, 0.4);
   }
+  .cert-inst { font: 400 19px/1.1 'VT323', ui-monospace, monospace; color: var(--amber-dim); text-transform: uppercase; }
+  .cert-name { font-size: 14px; }
+  .cert-year { font: 400 22px/1 'VT323', ui-monospace, monospace; }
+  .cert-card.planned .cert-inst { color: var(--up); }
 
-  .psych-card {
-    background: var(--dark2);
-    padding: 48px;
-    transition: background 0.3s;
-  }
-  .psych-card:hover { background: var(--dark3); }
-
-  .psych-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 20px;
-  }
-
-  .psych-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 16px;
-  }
-
-  .psych-desc {
-    font-size: 13px;
-    line-height: 1.8;
-    color: var(--text-dim);
-    margin-bottom: 28px;
-  }
-
+  /* ========== PROFILE: two reports on file ========== */
+  .psych-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .psych-card { display: flex; flex-direction: column; gap: 12px; padding: 18px 20px; border: 1px solid var(--amber-dim); }
+  .psych-label { font: 400 20px/1.1 'VT323', ui-monospace, monospace; color: var(--amber-dim); text-transform: uppercase; }
+  .psych-title { font: 400 34px/1 'VT323', ui-monospace, monospace; text-transform: uppercase; }
+  .psych-desc { font-size: 14px; line-height: 1.7; color: var(--amber-soft); }
   .psych-download {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    color: var(--gold);
+    align-self: flex-start;
+    margin-top: auto;
+    padding: 8px 12px;
+    border: 1px solid var(--amber);
+    font: 400 22px/1 'VT323', ui-monospace, monospace;
     text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s;
-    padding-bottom: 2px;
   }
-  .psych-download:hover { border-color: var(--gold); }
-  .psych-download::before { content: '↓'; font-size: 14px; }
+  .psych-download::before { content: '<GO> PDF  '; color: var(--amber-dim); }
+  .psych-download:hover { background: rgba(255, 178, 62, 0.12); }
 
   /* ========== ABOUT ========== */
-  #about { background: var(--dark2); max-width: 100%; padding: 100px; }
-  #about > * { max-width: 1300px; margin-left: auto; margin-right: auto; }
-  #about .section-header { max-width: 1300px; margin: 0 auto 64px; }
-
-  .about-layout {
-    max-width: 1300px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 80px;
-    align-items: start;
-  }
-
-  .about-text p {
-    font-size: 15px;
-    line-height: 1.9;
-    color: var(--text-dim);
-    margin-bottom: 24px;
-  }
-  .about-text p strong { color: var(--text); font-weight: 600; }
-
-  .about-vision {
-    background: var(--dark);
-    border: 1px solid var(--dark4);
-    padding: 40px;
-  }
-
-  .about-vision h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    margin-bottom: 20px;
-    color: var(--gold);
-  }
-
+  .about-layout { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 48px; align-items: start; }
+  .about-text p { max-width: 68ch; margin-bottom: 18px; font-size: 15.5px; line-height: 1.75; }
+  .about-text p strong { font-weight: 700; }
+  .about-vision { padding: 16px 18px; border: 1px solid var(--amber-dim); }
+  .about-vision + .about-vision { margin-top: 20px; }
+  .about-vision h3 { margin-bottom: 10px; font: 400 22px/1.1 'VT323', ui-monospace, monospace; color: var(--amber-dim); text-transform: uppercase; }
+  .about-vision.intl h3 { color: var(--up); }
   .vision-list { list-style: none; }
-  .vision-list li {
-    padding: 14px 0;
-    border-bottom: 1px solid var(--dark4);
-    font-size: 13px;
-    color: var(--text-dim);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .vision-list li::before {
-    content: '→';
-    color: var(--gold);
-    font-size: 12px;
-    flex-shrink: 0;
-  }
-  .vision-list li:last-child { border-bottom: none; }
+  .vision-list li { padding: 6px 0 6px 2ch; text-indent: -2ch; font-size: 14px; border-bottom: 1px dashed rgba(179, 122, 38, 0.3); }
+  .vision-list li:last-child { border-bottom: 0; }
+  .vision-list li::before { content: '> '; color: var(--amber-dim); }
 
-  /* ========== CONTACT ========== */
-  #contact { background: var(--dark); }
-
-  .contact-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-  }
-
-  .contact-intro {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 3vw, 42px);
-    line-height: 1.2;
-    margin-bottom: 32px;
-  }
-  .contact-intro em { color: var(--gold); font-style: italic; }
-
-  .contact-p {
-    font-size: 14px;
-    line-height: 1.8;
-    color: var(--text-dim);
-    margin-bottom: 40px;
-  }
-
-  .contact-links { display: flex; flex-direction: column; gap: 16px; }
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-size: 14px;
-    text-decoration: none;
-    color: var(--text);
-    padding: 16px;
-    border: 1px solid var(--dark4);
-    transition: all 0.3s;
-  }
-  .contact-link:hover {
-    border-color: var(--gold);
-    background: var(--gold-dim);
-    transform: translateX(4px);
-  }
+  /* ========== CONTACT: an order ticket ========== */
+  .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .contact-intro { font: 400 40px/1.05 'VT323', ui-monospace, monospace; text-transform: uppercase; }
+  .contact-intro em { font-style: normal; text-decoration: underline; text-underline-offset: 6px; }
+  .contact-p { max-width: 60ch; margin: 16px 0 24px; color: var(--amber-soft); }
+  .contact-links { display: flex; flex-direction: column; gap: 10px; }
+  .contact-link { display: flex; align-items: center; gap: 14px; overflow-wrap: anywhere; text-decoration: none; }
+  .contact-link:hover { text-decoration: underline; }
   .contact-link-icon {
-    width: 36px; height: 36px;
-    background: var(--gold-dim);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-
-  .contact-form { display: flex; flex-direction: column; gap: 16px; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-  .form-group { display: flex; flex-direction: column; gap: 8px; }
-  .form-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-  .form-input, .form-textarea {
-    background: var(--dark2);
-    border: 1px solid var(--dark4);
-    color: var(--text);
-    padding: 14px 16px;
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.3s;
-    resize: none;
-  }
-  .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
-  .form-textarea { height: 120px; }
-
-  .form-submit {
-    background: var(--gold);
-    color: var(--dark);
-    border: none;
-    padding: 16px 32px;
-    font-family: 'Syne', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    transition: all 0.3s;
-    align-self: flex-start;
-  }
-  .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
-
-  /* ========== FOOTER ========== */
-  footer {
-    background: var(--dark2);
-    padding: 40px 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid var(--dark4);
-  }
-  .footer-left {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-  .footer-quote {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 13px;
-    color: var(--text-muted);
-    max-width: 400px;
+    flex: 0 0 auto;
+    width: 3ch;
+    padding: 4px 0 2px;
+    background: var(--amber);
+    color: var(--glass);
+    font: 400 20px/1 'VT323', ui-monospace, monospace;
     text-align: center;
+    text-shadow: none;
+  }
+  .contact-form { display: flex; flex-direction: column; gap: 14px; padding: 18px 20px; border: 1px solid var(--amber-dim); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font: 400 19px/1 'VT323', ui-monospace, monospace; color: var(--amber-dim); text-transform: uppercase; }
+  .form-input, .form-textarea {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid var(--amber-dim);
+    border-radius: 0;
+    background: var(--glass);
+    color: var(--amber);
+    font: 400 15px/1.4 'IBM Plex Mono', ui-monospace, monospace;
+    text-shadow: none;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: #7A5A26; }
+  .form-input:focus, .form-textarea:focus { border-color: var(--amber); outline: 2px solid var(--amber); outline-offset: 1px; }
+  .form-textarea { height: 120px; resize: vertical; }
+  .form-submit { align-self: flex-start; }
+  .form-submit::before { content: '<GO>'; }
+
+  /* ========== FOOTER: the last status line ========== */
+  footer {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 18px;
+    align-items: start;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 18px 34px 26px;
+    /* The rule spans the content, not the padding. */
+    background: linear-gradient(var(--amber-dim), var(--amber-dim)) 34px 0 / calc(100% - 68px) 1px no-repeat;
+    font: 400 18px/1.25 'VT323', ui-monospace, monospace;
+    color: var(--amber-dim);
+  }
+  .footer-sub { font-size: 16px; }
+  .footer-quote { max-width: 54ch; text-align: center; }
+  .footer-right { text-align: right; }
+  .footer-right a { text-decoration: none; }
+  .footer-right a:hover { text-decoration: underline; }
+  @media (max-width: 760px) {
+    .timeline-item { grid-template-columns: 2ch minmax(0, 1fr); }
+    .timeline-year { grid-column: 2; grid-row: 1; }
+    .timeline-event, .timeline-detail { grid-column: 2; }
+    .cert-card { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; }
+    .cert-inst { grid-column: 1 / -1; }
+    .contact-intro { font-size: 32px; }
+    .contact-form { padding: 14px; }
+    footer { grid-template-columns: 1fr; padding: 16px 18px 22px; text-align: left; background-position: 18px 0; background-size: calc(100% - 36px) 1px; }
+    .footer-quote, .footer-right { text-align: left; }
   }
 
   /* ========== NO SCROLL REVEAL ==========
@@ -1019,12 +788,12 @@
       <div class="skill-group reveal" style="margin-top: 40px;">
         <h3 data-i18n="certs.inProgress">In Progress</h3>
         <div class="certs-grid">
-          <div class="cert-card" style="border-color: rgba(201,168,76,0.2);">
-            <div class="cert-inst" style="color:var(--accent);" data-i18n="certs.teluqInst">TELUQ · since Sept 2026</div>
+          <div class="cert-card planned">
+            <div class="cert-inst" data-i18n="certs.teluqInst">TELUQ · since Sept 2026</div>
             <div class="cert-name" data-i18n="certs.teluq">Financial Planning Certificate (Pl. Fin.)</div>
           </div>
-          <div class="cert-card" style="border-color: rgba(201,168,76,0.2);">
-            <div class="cert-inst" style="color:var(--accent);" data-i18n="certs.lavalInst">Université Laval · Jan 2027</div>
+          <div class="cert-card planned">
+            <div class="cert-inst" data-i18n="certs.lavalInst">Université Laval · Jan 2027</div>
             <div class="cert-name" data-i18n="certs.laval">MBA Urban &amp; Real Estate Management</div>
           </div>
         </div>
@@ -1068,7 +837,7 @@
 
   <div class="timeline-layout">
     <div>
-      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:32px;" data-i18n="journey.past">Past &amp; Present</div>
+      <div class="term-label timeline-col" data-i18n="journey.past">Past &amp; Present</div>
       <div class="timeline-wrapper">
         <div class="timeline-item">
           <div class="timeline-dot"></div>
@@ -1139,25 +908,24 @@
     </div>
 
     <div>
-      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--accent); text-transform:uppercase; margin-bottom:32px;" data-i18n="journey.future">Forward-Looking</div>
-      <div class="timeline-wrapper" style="border-left: none; padding-left: 0;">
-        <div style="position:relative; padding-left:40px; margin-bottom:0;">
-          <div style="position:absolute; left:0; top:0; bottom:0; width:1px; background: linear-gradient(to bottom, var(--accent), transparent);"></div>
+      <div class="term-label timeline-col up" data-i18n="journey.future">Forward-Looking</div>
+      <div class="timeline-wrapper">
+        <div>
 
           <div class="timeline-item future">
-            <div class="timeline-dot" style="left:-5px;"></div>
+            <div class="timeline-dot"></div>
             <div class="timeline-year" data-i18n="journey.bba.year">Fall 2026</div>
             <div class="timeline-event" data-i18n="journey.bba.event">B.B.A. Finance &amp; Management — Completion</div>
             <div class="timeline-detail" data-i18n="journey.bba.detail">Final degree milestone, while working as a Personal Banker Assistant at BMO.</div>
           </div>
           <div class="timeline-item future">
-            <div class="timeline-dot" style="left:-5px;"></div>
+            <div class="timeline-dot"></div>
             <div class="timeline-year" data-i18n="journey.mba.year">January 2027</div>
             <div class="timeline-event" data-i18n="journey.mba.event">MBA in Urban &amp; Real Estate Management · Université Laval</div>
             <div class="timeline-detail" data-i18n="journey.mba.detail">Turning my passion for real estate into the expertise to build lasting value.</div>
           </div>
           <div class="timeline-item future">
-            <div class="timeline-dot" style="left:-5px;"></div>
+            <div class="timeline-dot"></div>
             <div class="timeline-year" data-i18n="journey.longTerm.year">Long-Term</div>
             <div class="timeline-event">Pl. Fin. · Construction JL Groleau</div>
             <div class="timeline-detail" data-i18n="journey.longTerm.detail">Earn the Planificateur financier title and bring expertise in finance, real estate and M&amp;A back to the family business.</div>
@@ -1207,8 +975,8 @@
         </ul>
       </div>
 
-      <div class="about-vision" style="margin-top: 24px; background: var(--dark);">
-        <h3 style="color: var(--accent);" data-i18n="about.intlTitle">International Exposure</h3>
+      <div class="about-vision intl">
+        <h3 data-i18n="about.intlTitle">International Exposure</h3>
         <ul class="vision-list">
           <li data-i18n="about.intl1">Australia — Monash University, Road Trip (2024–25)</li>
           <li data-i18n="about.intl2">Cambodia — Humanitarian Mission (2022)</li>
@@ -1254,7 +1022,7 @@
 
     <div class="reveal">
       <div class="contact-form">
-        <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;" data-i18n="contact.formTitle">Leave a message or advice</div>
+        <div class="term-label" data-i18n="contact.formTitle">Leave a message or advice</div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label" data-i18n="contact.firstName">First Name</label>
@@ -1273,7 +1041,7 @@
           <label class="form-label" data-i18n="contact.message">Message or Advice</label>
           <textarea class="form-textarea" placeholder="Share a recommendation, opportunity, or insight..." data-i18n-placeholder="contact.phMessage"></textarea>
         </div>
-        <button class="form-submit" data-alert="Thanks for reaching out! Justin will get back to you." data-i18n-alert="contact.thanks" data-i18n="contact.send" onclick="alert(this.dataset.alert)">Send Message →</button>
+        <button class="form-submit go-btn" data-alert="Thanks for reaching out! Justin will get back to you." data-i18n-alert="contact.thanks" data-i18n="contact.send" onclick="alert(this.dataset.alert)">Send Message →</button>
       </div>
     </div>
   </div>
@@ -1283,14 +1051,14 @@
 <footer>
   <div class="footer-left">
     © 2026 Justin Groleau · Québec, Canada<br>
-    <span style="font-size:10px; color:var(--text-muted);">jgroleau00@hotmail.com · 581-372-9187</span>
+    <span class="footer-sub">jgroleau00@hotmail.com · 581-372-9187</span>
   </div>
   <div class="footer-quote" data-i18n-html="footer.quote">
     "What students should be learning is how to value a business.<br>That's what investing is all about." — Warren Buffett
   </div>
-  <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--text-muted); text-align:right;">
+  <div class="footer-right">
     <span data-i18n="footer.tags">Finance · PE · M&A</span><br>
-    <a href="http://www.linkedin.com/in/justin-groleau-71a150259" target="_blank" style="color:var(--gold); text-decoration:none;">LinkedIn →</a>
+    <a href="http://www.linkedin.com/in/justin-groleau-71a150259" target="_blank" rel="noopener">LinkedIn →</a>
   </div>
 </footer>
 
