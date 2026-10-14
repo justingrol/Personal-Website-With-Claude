@@ -3,7 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Justin Groleau — Finance & Investments</title>
+<title data-i18n="meta.title">Justin Groleau — Finance & Investments</title>
+<script>
+  // The visitor's language, shared with the 3D trail through
+  // localStorage['jg.lang']: a stored 'fr' or 'en' wins, else the browser's
+  // first language, else English. Set here, before anything is drawn; the
+  // page itself is translated by the script at the end of <body>, and a
+  // French page stays hidden until then so no English flashes by.
+  (function () {
+    var lang = null;
+    try { lang = localStorage.getItem('jg.lang'); } catch (e) {}
+    if (lang !== 'fr' && lang !== 'en') {
+      var first = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+      lang = /^fr/i.test(first) ? 'fr' : 'en';
+    }
+    var root = document.documentElement;
+    root.lang = lang;
+    if (lang === 'fr') {
+      root.classList.add('i18n-pending');
+      // Fallback: shown at the latest once the page is parsed.
+      document.addEventListener('DOMContentLoaded', function () { root.classList.remove('i18n-pending'); });
+    }
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -138,6 +160,25 @@
     text-decoration: none;
   }
   .nav-trail:hover { background: transparent; color: var(--accent); }
+  /* Language switch: FR | EN, the language shown in gold. */
+  .nav-lang {
+    align-self: stretch;
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-dim);
+    padding: 0 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    cursor: none;
+    transition: border-color 0.3s;
+  }
+  .nav-lang:hover { border-color: var(--gold); }
+  .nav-lang-sep { margin: 0 6px; color: var(--text-muted); }
+  .nav-lang-opt.is-active { color: var(--gold); font-weight: 500; }
+  /* A French page waits for its text (see the script in <head>). */
+  .i18n-pending body { visibility: hidden; }
 
   /* ========== HERO ========== */
   #hero {
@@ -944,11 +985,17 @@
     .form-row { grid-template-columns: 1fr; }
     .timeline-layout { grid-template-columns: 1fr; gap: 56px; }
   }
-  /* On a phone the section links push the nav past the screen's edge, and
-     the 3D World and LinkedIn buttons with it: they go, the sections are a
-     scroll away. */
-  @media (max-width: 760px) {
+  /* Below 960px the section links (longer in French) push the nav past the
+     screen's edge, and the language, 3D World and LinkedIn buttons with it:
+     they go, the sections are a scroll away. */
+  @media (max-width: 960px) {
     .nav-links { display: none; }
+  }
+  /* On a phone the three buttons tighten up a little to fit, down to 360px. */
+  @media (max-width: 480px) {
+    .nav-right { gap: 8px; }
+    .nav-lang { padding: 0 8px; }
+    .nav-trail, .nav-cta { padding: 8px 12px; }
   }
 </style>
 </head>
@@ -962,14 +1009,15 @@
 <nav>
   <a href="#hero" class="nav-logo">JG</a>
   <ul class="nav-links">
-    <li><a href="#deals">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#timeline">Journey</a></li>
-    <li><a href="#about">About</a></li>
+    <li><a href="#deals" data-i18n="nav.projects">Projects</a></li>
+    <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+    <li><a href="#timeline" data-i18n="nav.journey">Journey</a></li>
+    <li><a href="#about" data-i18n="nav.about">About</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <a href="/trail/" class="nav-trail" data-trail-link>3D World</a>
+    <button type="button" class="nav-lang" id="langToggle" aria-label="Switch to French" data-i18n-aria-label="nav.langSwitch"><span class="nav-lang-opt" data-lang="fr">FR</span><span class="nav-lang-sep" aria-hidden="true">|</span><span class="nav-lang-opt" data-lang="en">EN</span></button>
+    <a href="/trail/" class="nav-trail" data-trail-link data-i18n="nav.trail">3D World</a>
     <a href="http://www.linkedin.com/in/justin-groleau-71a150259" target="_blank" class="nav-cta">LinkedIn</a>
   </div>
 </nav>
@@ -980,24 +1028,24 @@
   <div class="hero-grid"></div>
 
   <div class="hero-left">
-    <div class="hero-tag">Finance · Real Estate · M&amp;A · AI</div>
+    <div class="hero-tag" data-i18n="hero.tag">Finance · Real Estate · M&amp;A · AI</div>
     <h1 class="hero-name">
       Justin<br><span>Groleau</span>
     </h1>
-    <p class="hero-role">B.B.A. Finance &amp; Management · Bishop's University</p>
-    <p class="hero-desc">
+    <p class="hero-role" data-i18n="hero.role">B.B.A. Finance &amp; Management · Bishop's University</p>
+    <p class="hero-desc" data-i18n="hero.desc">
       Finance student and Personal Banker Assistant at BMO, drawn to real estate, M&amp;A and AI,
       with international exposure across three continents and a relentless drive to understand
       what drives business value.
     </p>
     <div class="hero-btns">
-      <a href="#deals" class="btn-primary">View Projects</a>
-      <a href="#contact" class="btn-outline">Get in Touch</a>
+      <a href="#deals" class="btn-primary" data-i18n="hero.viewProjects">View Projects</a>
+      <a href="#contact" class="btn-outline" data-i18n="hero.getInTouch">Get in Touch</a>
     </div>
     <a href="/trail/" class="trail-cta" data-trail-link>
-      <span class="trail-cta-kicker">Interactive 3D · Welcome to My Trail</span>
-      <span class="trail-cta-label">Enter my 3D world →</span>
-      <span class="trail-cta-line">Walk a Québec forest trail through my story.</span>
+      <span class="trail-cta-kicker" data-i18n="hero.trailKicker">Interactive 3D · Welcome to My Trail</span>
+      <span class="trail-cta-label" data-i18n="hero.trailLabel">Enter my 3D world →</span>
+      <span class="trail-cta-line" data-i18n="hero.trailLine">Walk a Québec forest trail through my story.</span>
     </a>
   </div>
 
@@ -1005,11 +1053,11 @@
     <div class="hero-stats">
       <div class="stat-card">
         <div class="stat-num">3</div>
-        <div class="stat-label">Projects</div>
+        <div class="stat-label" data-i18n="stats.projects">Projects</div>
       </div>
       <div class="stat-card">
         <div class="stat-num">4</div>
-        <div class="stat-label">Continents Explored</div>
+        <div class="stat-label" data-i18n="stats.continents">Continents Explored</div>
       </div>
       <div class="stat-card">
         <div class="stat-num">2026</div>
@@ -1017,10 +1065,10 @@
       </div>
       <div class="stat-card">
         <div class="stat-num">BBA</div>
-        <div class="stat-label">Finance + Management</div>
+        <div class="stat-label" data-i18n="stats.bba">Finance + Management</div>
       </div>
       <div class="quote-card">
-        <p>"What students should be learning is how to value a business. That's what investing is all about."</p>
+        <p data-i18n="quote.text">"What students should be learning is how to value a business. That's what investing is all about."</p>
         <cite>— Warren Buffett</cite>
       </div>
     </div>
@@ -1032,10 +1080,10 @@
   <div class="ticker-content">
     <span>Finance</span>
     <span>M&amp;A · LBO</span>
-    <span><em>Real Estate &amp; Development</em></span>
-    <span>DCF Valuation</span>
-    <span><em>Harvard · Alternative Investments</em></span>
-    <span>Monash University · Australia</span>
+    <span><em data-i18n="ticker.realEstate">Real Estate &amp; Development</em></span>
+    <span data-i18n="ticker.dcf">DCF Valuation</span>
+    <span><em data-i18n="ticker.harvard">Harvard · Alternative Investments</em></span>
+    <span data-i18n="ticker.monash">Monash University · Australia</span>
     <span><em>Bishop's University</em></span>
     <span>IFIC · CSI 2026</span>
     <span>Pl. Fin. · TELUQ</span>
@@ -1043,10 +1091,10 @@
     <span><em>École d'Entrepreneurship de Beauce</em></span>
     <span>Finance</span>
     <span>M&amp;A · LBO</span>
-    <span><em>Real Estate &amp; Development</em></span>
-    <span>DCF Valuation</span>
-    <span><em>Harvard · Alternative Investments</em></span>
-    <span>Monash University · Australia</span>
+    <span><em data-i18n="ticker.realEstate">Real Estate &amp; Development</em></span>
+    <span data-i18n="ticker.dcf">DCF Valuation</span>
+    <span><em data-i18n="ticker.harvard">Harvard · Alternative Investments</em></span>
+    <span data-i18n="ticker.monash">Monash University · Australia</span>
     <span><em>Bishop's University</em></span>
     <span>IFIC · CSI 2026</span>
     <span>Pl. Fin. · TELUQ</span>
@@ -1059,43 +1107,43 @@
 <div id="deals">
   <div class="section-header reveal">
     <span class="section-num">01</span>
-    <h2 class="section-title">Projects</h2>
+    <h2 class="section-title" data-i18n="deals.title">Projects</h2>
     <div class="section-line"></div>
   </div>
 
   <div class="deals-grid reveal">
     <div class="deal-card">
       <div class="deal-corner"></div>
-      <div class="deal-badge badge-re">Real Estate</div>
-      <h3 class="deal-title">Melbourne CBD Property Case Study</h3>
-      <p class="deal-desc">Full feasibility model for a mixed-use CBD acquisition. Built in Excel to determine investment viability through NPV, IRR, and MIRR analysis. Dynamic sensitivity tables testing occupancy, refurbishment capex, and exit assumptions.</p>
+      <div class="deal-badge badge-re" data-i18n="deals.melbourne.badge">Real Estate</div>
+      <h3 class="deal-title" data-i18n="deals.melbourne.title">Melbourne CBD Property Case Study</h3>
+      <p class="deal-desc" data-i18n="deals.melbourne.desc">Full feasibility model for a mixed-use CBD acquisition. Built in Excel to determine investment viability through NPV, IRR, and MIRR analysis. Dynamic sensitivity tables testing occupancy, refurbishment capex, and exit assumptions.</p>
       <div class="deal-meta">
         <span class="deal-tag">Monash University · 2025</span>
-        <span class="deal-tag">NPV / IRR / MIRR</span>
-        <span class="deal-tag">Sensitivity Analysis</span>
+        <span class="deal-tag" data-i18n="deals.melbourne.tagMetrics">NPV / IRR / MIRR</span>
+        <span class="deal-tag" data-i18n="deals.melbourne.tagSensitivity">Sensitivity Analysis</span>
       </div>
     </div>
 
     <div class="deal-card">
       <div class="deal-corner"></div>
       <div class="deal-badge badge-lbo">3D · Web</div>
-      <h3 class="deal-title">Welcome to My Trail: 3D Portfolio</h3>
-      <p class="deal-desc">An interactive 3D portfolio: a Québec forest trail and a log cottage where each trail sign and object tells part of my story. Built in React and Three.js with AI-assisted development.</p>
+      <h3 class="deal-title" data-i18n="deals.trail.title">Welcome to My Trail: 3D Portfolio</h3>
+      <p class="deal-desc" data-i18n="deals.trail.desc">An interactive 3D portfolio: a Québec forest trail and a log cottage where each trail sign and object tells part of my story. Built in React and Three.js with AI-assisted development.</p>
       <div class="deal-meta">
         <span class="deal-tag">2026</span>
         <span class="deal-tag">React · Three.js</span>
-        <span class="deal-tag">AI-Assisted</span>
+        <span class="deal-tag" data-i18n="deals.tagAi">AI-Assisted</span>
       </div>
     </div>
 
     <div class="deal-card">
       <div class="deal-corner"></div>
-      <div class="deal-badge badge-ma">Data Visualization</div>
+      <div class="deal-badge badge-ma" data-i18n="deals.fund.badge">Data Visualization</div>
       <h3 class="deal-title">BMO Fund Explorer</h3>
-      <p class="deal-desc">An interactive visualization of BMO's investment funds, built to explore and compare them at a glance.</p>
+      <p class="deal-desc" data-i18n="deals.fund.desc">An interactive visualization of BMO's investment funds, built to explore and compare them at a glance.</p>
       <div class="deal-meta">
-        <span class="deal-tag">Investment Funds</span>
-        <span class="deal-tag">AI-Assisted</span>
+        <span class="deal-tag" data-i18n="deals.fund.tagFunds">Investment Funds</span>
+        <span class="deal-tag" data-i18n="deals.tagAi">AI-Assisted</span>
       </div>
     </div>
   </div>
@@ -1105,40 +1153,40 @@
 <div id="skills">
   <div class="section-header reveal">
     <span class="section-num">02</span>
-    <h2 class="section-title">Technical Skills &amp; Credentials</h2>
+    <h2 class="section-title" data-i18n="skills.title">Technical Skills &amp; Credentials</h2>
     <div class="section-line"></div>
   </div>
 
   <div class="skills-layout">
     <div>
       <div class="skill-group reveal">
-        <h3>Financial Modeling &amp; Analysis</h3>
+        <h3 data-i18n="skills.groupFinance">Financial Modeling &amp; Analysis</h3>
         <div class="skill-bar-item" data-note="Bishop's coursework and the Melbourne case study">
-          <div class="skill-bar-label"><span>DCF &amp; Valuation</span><span class="skill-bar-pct">80%</span></div>
+          <div class="skill-bar-label"><span data-i18n="skills.dcf">DCF &amp; Valuation</span><span class="skill-bar-pct" data-i18n="pct.80">80%</span></div>
           <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="80"></div></div>
         </div>
         <div class="skill-bar-item" data-note="sensitivity tables and scenario models">
-          <div class="skill-bar-label"><span>Excel / Dynamic Models</span><span class="skill-bar-pct">85%</span></div>
+          <div class="skill-bar-label"><span data-i18n="skills.excel">Excel / Dynamic Models</span><span class="skill-bar-pct" data-i18n="pct.85">85%</span></div>
           <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="85"></div></div>
         </div>
         <div class="skill-bar-item" data-note="feasibility, NPV / IRR / MIRR (Monash)">
-          <div class="skill-bar-label"><span>Real Estate Modeling</span><span class="skill-bar-pct">72%</span></div>
+          <div class="skill-bar-label"><span data-i18n="skills.realEstate">Real Estate Modeling</span><span class="skill-bar-pct" data-i18n="pct.72">72%</span></div>
           <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="72"></div></div>
         </div>
       </div>
 
       <div class="skill-group reveal" style="margin-top: 40px;">
-        <h3>Tools &amp; Technology</h3>
+        <h3 data-i18n="skills.groupTools">Tools &amp; Technology</h3>
         <div class="skill-bar-item" data-note="project scheduling and planning">
-          <div class="skill-bar-label"><span>MS Project (Advanced)</span><span class="skill-bar-pct">90%</span></div>
+          <div class="skill-bar-label"><span data-i18n="skills.msProject">MS Project (Advanced)</span><span class="skill-bar-pct" data-i18n="pct.90">90%</span></div>
           <div class="skill-bar-track"><div class="skill-bar-fill accent" data-pct="90"></div></div>
         </div>
         <div class="skill-bar-item" data-note="used to build this 3D portfolio and the BMO Fund Explorer">
-          <div class="skill-bar-label"><span>AI &amp; Automation Tools</span><span class="skill-bar-pct">75%</span></div>
+          <div class="skill-bar-label"><span data-i18n="skills.ai">AI &amp; Automation Tools</span><span class="skill-bar-pct" data-i18n="pct.75">75%</span></div>
           <div class="skill-bar-track"><div class="skill-bar-fill accent" data-pct="75"></div></div>
         </div>
         <div class="skill-bar-item" data-note="spoken and written, at work and at school">
-          <div class="skill-bar-label"><span>French / English (Bilingual)</span><span class="skill-bar-pct">100%</span></div>
+          <div class="skill-bar-label"><span data-i18n="skills.languages">French / English (Bilingual)</span><span class="skill-bar-pct" data-i18n="pct.100">100%</span></div>
           <div class="skill-bar-track"><div class="skill-bar-fill accent" data-pct="100"></div></div>
         </div>
       </div>
@@ -1150,17 +1198,17 @@
         <div class="certs-grid">
           <div class="cert-card">
             <div class="cert-inst">CSI</div>
-            <div class="cert-name">Investment Funds in Canada</div>
+            <div class="cert-name" data-i18n="certs.ific">Investment Funds in Canada</div>
             <div class="cert-year">2026</div>
           </div>
           <div class="cert-card">
             <div class="cert-inst">Harvard Online</div>
-            <div class="cert-name">Alternative Investments</div>
+            <div class="cert-name" data-i18n="certs.altInvest">Alternative Investments</div>
             <div class="cert-year">2024</div>
           </div>
           <div class="cert-card">
             <div class="cert-inst">Udemy</div>
-            <div class="cert-name">MS Project Advanced</div>
+            <div class="cert-name" data-i18n="certs.msProject">MS Project Advanced</div>
             <div class="cert-year">2023</div>
           </div>
           <div class="cert-card">
@@ -1169,23 +1217,23 @@
             <div class="cert-year">2026</div>
           </div>
           <div class="cert-card">
-            <div class="cert-inst">Champlain CEGEP</div>
-            <div class="cert-name">Commerce Profile Diploma</div>
+            <div class="cert-inst" data-i18n="certs.champlainInst">Champlain CEGEP</div>
+            <div class="cert-name" data-i18n="certs.champlain">Commerce Profile Diploma</div>
             <div class="cert-year">2023</div>
           </div>
         </div>
       </div>
 
       <div class="skill-group reveal" style="margin-top: 40px;">
-        <h3>In Progress</h3>
+        <h3 data-i18n="certs.inProgress">In Progress</h3>
         <div class="certs-grid">
           <div class="cert-card" style="border-color: rgba(201,168,76,0.2);">
-            <div class="cert-inst" style="color:var(--accent);">TELUQ · since Sept 2026</div>
-            <div class="cert-name">Financial Planning Certificate (Pl. Fin.)</div>
+            <div class="cert-inst" style="color:var(--accent);" data-i18n="certs.teluqInst">TELUQ · since Sept 2026</div>
+            <div class="cert-name" data-i18n="certs.teluq">Financial Planning Certificate (Pl. Fin.)</div>
           </div>
           <div class="cert-card" style="border-color: rgba(201,168,76,0.2);">
-            <div class="cert-inst" style="color:var(--accent);">Université Laval · Jan 2027</div>
-            <div class="cert-name">MBA Urban &amp; Real Estate Management</div>
+            <div class="cert-inst" style="color:var(--accent);" data-i18n="certs.lavalInst">Université Laval · Jan 2027</div>
+            <div class="cert-name" data-i18n="certs.laval">MBA Urban &amp; Real Estate Management</div>
           </div>
         </div>
       </div>
@@ -1197,22 +1245,22 @@
 <section id="psychometric">
   <div class="section-header reveal">
     <span class="section-num">03</span>
-    <h2 class="section-title">Psychometric Profile</h2>
+    <h2 class="section-title" data-i18n="psych.title">Psychometric Profile</h2>
     <div class="section-line"></div>
   </div>
 
   <div class="psych-grid reveal">
     <div class="psych-card">
-      <div class="psych-label">Assessment 01 · 2024</div>
-      <h3 class="psych-title">NOVA Profile</h3>
-      <p class="psych-desc">A comprehensive psychometric framework measuring behavioral preferences, core motivations, psychological type, communication style, cognitive patterns, and natural talents. Designed to improve self-awareness and relational intelligence — particularly valuable in high-stakes, relationship-driven environments like PE and M&A.</p>
-      <a href="https://5efc77e4-857e-4ef0-bc9f-026ae30abd51.filesusr.com/ugd/62e3d7_710c9b732e594422a1b2f23cc661b054.pdf" target="_blank" class="psych-download">Download Full Report</a>
+      <div class="psych-label" data-i18n="psych.nova.label">Assessment 01 · 2024</div>
+      <h3 class="psych-title" data-i18n="psych.nova.title">NOVA Profile</h3>
+      <p class="psych-desc" data-i18n="psych.nova.desc">A comprehensive psychometric framework measuring behavioral preferences, core motivations, psychological type, communication style, cognitive patterns, and natural talents. Designed to improve self-awareness and relational intelligence — particularly valuable in high-stakes, relationship-driven environments like PE and M&A.</p>
+      <a href="https://5efc77e4-857e-4ef0-bc9f-026ae30abd51.filesusr.com/ugd/62e3d7_710c9b732e594422a1b2f23cc661b054.pdf" target="_blank" class="psych-download" data-i18n="psych.download">Download Full Report</a>
     </div>
     <div class="psych-card">
-      <div class="psych-label">Assessment 02 · 2026</div>
-      <h3 class="psych-title">Dynamix Profile</h3>
-      <p class="psych-desc">An updated, expanded psychometric assessment offering a deeper read on behavioral tendencies, adaptive communication, and interpersonal dynamics. The Dynamix report provides insight into how I operate under pressure, collaborate with teams, and drive outcomes in fast-paced and ambiguous environments.</p>
-      <a href="https://5efc77e4-857e-4ef0-bc9f-026ae30abd51.filesusr.com/ugd/62e3d7_6847d977b2714d67a17213c664e7577e.pdf" target="_blank" class="psych-download">Download Full Report</a>
+      <div class="psych-label" data-i18n="psych.dynamix.label">Assessment 02 · 2026</div>
+      <h3 class="psych-title" data-i18n="psych.dynamix.title">Dynamix Profile</h3>
+      <p class="psych-desc" data-i18n="psych.dynamix.desc">An updated, expanded psychometric assessment offering a deeper read on behavioral tendencies, adaptive communication, and interpersonal dynamics. The Dynamix report provides insight into how I operate under pressure, collaborate with teams, and drive outcomes in fast-paced and ambiguous environments.</p>
+      <a href="https://5efc77e4-857e-4ef0-bc9f-026ae30abd51.filesusr.com/ugd/62e3d7_6847d977b2714d67a17213c664e7577e.pdf" target="_blank" class="psych-download" data-i18n="psych.download">Download Full Report</a>
     </div>
   </div>
 
@@ -1222,105 +1270,105 @@
 <section id="timeline">
   <div class="section-header reveal">
     <span class="section-num">04</span>
-    <h2 class="section-title">The Journey</h2>
+    <h2 class="section-title" data-i18n="journey.title">The Journey</h2>
     <div class="section-line"></div>
   </div>
 
   <div class="timeline-layout">
     <div>
-      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:32px;">Past &amp; Present</div>
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:32px;" data-i18n="journey.past">Past &amp; Present</div>
       <div class="timeline-wrapper">
         <div class="timeline-item">
           <div class="timeline-dot"></div>
-          <div class="timeline-year">June 9, 2004</div>
-          <div class="timeline-event">Born in Beauceville, Québec</div>
+          <div class="timeline-year" data-i18n="journey.born.year">June 9, 2004</div>
+          <div class="timeline-event" data-i18n="journey.born.event">Born in Beauceville, Québec</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-year">2016 – 2021</div>
-          <div class="timeline-event">Jésus-Marie High School · Hockey Captain</div>
-          <div class="timeline-detail">Lieutenant Governor's Medal (2021). Led competitive hockey team while maintaining academic excellence.</div>
+          <div class="timeline-event" data-i18n="journey.highSchool.event">Jésus-Marie High School · Hockey Captain</div>
+          <div class="timeline-detail" data-i18n="journey.highSchool.detail">Lieutenant Governor's Medal (2021). Led competitive hockey team while maintaining academic excellence.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-year">2019</div>
-          <div class="timeline-event">Humanitarian Trip: Ecuador &amp; Theatre: Russia</div>
-          <div class="timeline-detail">Built bathrooms with JM Sans Frontière in Ecuador. Represented school at international theatre competition in Russia.</div>
+          <div class="timeline-event" data-i18n="journey.trips.event">Humanitarian Trip: Ecuador &amp; Theatre: Russia</div>
+          <div class="timeline-detail" data-i18n="journey.trips.detail">Built bathrooms with JM Sans Frontière in Ecuador. Represented school at international theatre competition in Russia.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-year">2021 – 2023</div>
-          <div class="timeline-event">Champlain St. Lawrence CEGEP</div>
-          <div class="timeline-detail">Commerce Profile. Humanitarian experience in Cambodia (2022) with SIEC & Société des Missions Étrangères.</div>
+          <div class="timeline-event" data-i18n="journey.cegep.event">Champlain St. Lawrence CEGEP</div>
+          <div class="timeline-detail" data-i18n="journey.cegep.detail">Commerce Profile. Humanitarian experience in Cambodia (2022) with SIEC & Société des Missions Étrangères.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-year">2023</div>
-          <div class="timeline-event">Bishop's University · B.B.A. in Management</div>
-          <div class="timeline-detail">Began undergraduate studies while earning MS Project Advanced certification and deepening technical skills.</div>
+          <div class="timeline-event" data-i18n="journey.bishops.event">Bishop's University · B.B.A. in Management</div>
+          <div class="timeline-detail" data-i18n="journey.bishops.detail">Began undergraduate studies while earning MS Project Advanced certification and deepening technical skills.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
-          <div class="timeline-year">June – July 2024</div>
+          <div class="timeline-year" data-i18n="journey.harvard.year">June – July 2024</div>
           <div class="timeline-event">Harvard Business School Online</div>
-          <div class="timeline-detail">Certificate in Alternative Investments. First formal exposure to PE, hedge funds, and private debt.</div>
+          <div class="timeline-detail" data-i18n="journey.harvard.detail">Certificate in Alternative Investments. First formal exposure to PE, hedge funds, and private debt.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-year">2024 – 2025</div>
-          <div class="timeline-event">Monash University, Australia · Study Abroad</div>
-          <div class="timeline-detail">Real Estate Economics course turned finance into a true passion. Built first full financial model. Road trip across all of Australia — coast to desert.</div>
+          <div class="timeline-event" data-i18n="journey.monash.event">Monash University, Australia · Study Abroad</div>
+          <div class="timeline-detail" data-i18n="journey.monash.detail">Real Estate Economics course turned finance into a true passion. Built first full financial model. Road trip across all of Australia — coast to desert.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-year">2025</div>
-          <div class="timeline-event">Added B.B.A. in Finance at Bishop's University</div>
-          <div class="timeline-detail">Double concentration in Finance &amp; Management. Began work at BMO as Bank Teller in October 2025.</div>
+          <div class="timeline-event" data-i18n="journey.finance.event">Added B.B.A. in Finance at Bishop's University</div>
+          <div class="timeline-detail" data-i18n="journey.finance.detail">Double concentration in Finance &amp; Management. Began work at BMO as Bank Teller in October 2025.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
-          <div class="timeline-year">March 2026</div>
+          <div class="timeline-year" data-i18n="journey.eeb.year">March 2026</div>
           <div class="timeline-event">École d'Entrepreneurship de Beauce (EEB)</div>
-          <div class="timeline-detail">SIJE program. Built a network of ambitious, driven peers. Strengthened leadership, collaboration, and entrepreneurial mindset.</div>
+          <div class="timeline-detail" data-i18n="journey.eeb.detail">SIJE program. Built a network of ambitious, driven peers. Strengthened leadership, collaboration, and entrepreneurial mindset.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
-          <div class="timeline-year">May 2026</div>
-          <div class="timeline-event">Investment Funds in Canada (IFIC) · Personal Banker Assistant at BMO</div>
-          <div class="timeline-detail">Earned the Investment Funds in Canada certification (CSI) and was promoted from Bank Teller to Personal Banker Assistant.</div>
+          <div class="timeline-year" data-i18n="journey.bmo.year">May 2026</div>
+          <div class="timeline-event" data-i18n="journey.bmo.event">Investment Funds in Canada (IFIC) · Personal Banker Assistant at BMO</div>
+          <div class="timeline-detail" data-i18n="journey.bmo.detail">Earned the Investment Funds in Canada certification (CSI) and was promoted from Bank Teller to Personal Banker Assistant.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
-          <div class="timeline-year">September 2026</div>
-          <div class="timeline-event">Financial Planning Certificate · TELUQ</div>
-          <div class="timeline-detail">First step toward the Planificateur financier (Pl. Fin.) title.</div>
+          <div class="timeline-year" data-i18n="journey.teluq.year">September 2026</div>
+          <div class="timeline-event" data-i18n="journey.teluq.event">Financial Planning Certificate · TELUQ</div>
+          <div class="timeline-detail" data-i18n="journey.teluq.detail">First step toward the Planificateur financier (Pl. Fin.) title.</div>
         </div>
       </div>
     </div>
 
     <div>
-      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--accent); text-transform:uppercase; margin-bottom:32px;">Forward-Looking</div>
+      <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--accent); text-transform:uppercase; margin-bottom:32px;" data-i18n="journey.future">Forward-Looking</div>
       <div class="timeline-wrapper" style="border-left: none; padding-left: 0;">
         <div style="position:relative; padding-left:40px; margin-bottom:0;">
           <div style="position:absolute; left:0; top:0; bottom:0; width:1px; background: linear-gradient(to bottom, var(--accent), transparent);"></div>
 
           <div class="timeline-item future">
             <div class="timeline-dot" style="left:-5px;"></div>
-            <div class="timeline-year">Fall 2026</div>
-            <div class="timeline-event">B.B.A. Finance &amp; Management — Completion</div>
-            <div class="timeline-detail">Final degree milestone, while working as a Personal Banker Assistant at BMO.</div>
+            <div class="timeline-year" data-i18n="journey.bba.year">Fall 2026</div>
+            <div class="timeline-event" data-i18n="journey.bba.event">B.B.A. Finance &amp; Management — Completion</div>
+            <div class="timeline-detail" data-i18n="journey.bba.detail">Final degree milestone, while working as a Personal Banker Assistant at BMO.</div>
           </div>
           <div class="timeline-item future">
             <div class="timeline-dot" style="left:-5px;"></div>
-            <div class="timeline-year">January 2027</div>
-            <div class="timeline-event">MBA in Urban &amp; Real Estate Management · Université Laval</div>
-            <div class="timeline-detail">Turning my passion for real estate into the expertise to build lasting value.</div>
+            <div class="timeline-year" data-i18n="journey.mba.year">January 2027</div>
+            <div class="timeline-event" data-i18n="journey.mba.event">MBA in Urban &amp; Real Estate Management · Université Laval</div>
+            <div class="timeline-detail" data-i18n="journey.mba.detail">Turning my passion for real estate into the expertise to build lasting value.</div>
           </div>
           <div class="timeline-item future">
             <div class="timeline-dot" style="left:-5px;"></div>
-            <div class="timeline-year">Long-Term</div>
+            <div class="timeline-year" data-i18n="journey.longTerm.year">Long-Term</div>
             <div class="timeline-event">Pl. Fin. · Construction JL Groleau</div>
-            <div class="timeline-detail">Earn the Planificateur financier title and bring expertise in finance, real estate and M&amp;A back to the family business.</div>
+            <div class="timeline-detail" data-i18n="journey.longTerm.detail">Earn the Planificateur financier title and bring expertise in finance, real estate and M&amp;A back to the family business.</div>
           </div>
         </div>
       </div>
@@ -1332,48 +1380,48 @@
 <div id="about">
   <div class="section-header reveal">
     <span class="section-num">05</span>
-    <h2 class="section-title">About Justin</h2>
+    <h2 class="section-title" data-i18n="about.title">About Justin</h2>
     <div class="section-line"></div>
   </div>
 
   <div class="about-layout">
     <div class="about-text reveal">
-      <p>
+      <p data-i18n="about.p1">
         I was born in Beauceville, Québec, on June 9, 2004. From a young age, discipline and curiosity defined how I moved through the world — whether captaining a competitive hockey team, building bathrooms in Ecuador, or performing at an international theatre competition in Russia.
       </p>
-      <p>
+      <p data-i18n-html="about.p2">
         My pivot into finance was concrete, not theoretical. A Real Estate Economics course at <strong>Monash University in Australia</strong> turned investing from an interest into a true direction. I built my first full financial model there, then road-tripped across the continent — coast to desert — returning home more focused, resilient, and intentional than I'd ever been.
       </p>
-      <p>
+      <p data-i18n-html="about.p3">
         Today I'm completing a <strong>double B.B.A. in Finance &amp; Management at Bishop's University</strong> (graduating in fall 2026) while working at <strong>BMO</strong>: Bank Teller from October 2025, Personal Banker Assistant since May 2026, the month I earned the Investment Funds in Canada (IFIC) certification. In September 2026 I began TELUQ's Financial Planning Certificate, on the path to the Pl. Fin. title, and in January 2027 I start an <strong>MBA in Urban &amp; Real Estate Management at Université Laval</strong>.
       </p>
-      <p>
+      <p data-i18n-html="about.p4">
         <strong>Construction JL Groleau</strong> is my family's business — construction, real estate and development in Beauce. I support it with project valuation, AI integration and operational improvements, because I believe technical credentials and real-world judgment need to grow together.
       </p>
-      <p>
+      <p data-i18n="about.p5">
         Beyond my path, M&amp;A, LBOs and artificial intelligence are the subjects I keep coming back to — AI especially, applied to finance and to building tools like this portfolio and the BMO Fund Explorer. I always welcome advice from finance professionals; if you have a recommendation, I would genuinely love to hear it.
       </p>
     </div>
 
     <div class="reveal">
       <div class="about-vision">
-        <h3>Target Focus</h3>
+        <h3 data-i18n="about.focusTitle">Target Focus</h3>
         <ul class="vision-list">
-          <li>Private Equity — LBO Analysis, Portfolio Value Creation</li>
-          <li>M&A Advisory — Deal Structuring, Due Diligence</li>
-          <li>Transaction Advisory Services</li>
-          <li>Investment Banking — Coverage &amp; ECM/DCM</li>
-          <li>Alternative Investments — Hedge Funds, Private Debt</li>
+          <li data-i18n="about.focus1">Private Equity — LBO Analysis, Portfolio Value Creation</li>
+          <li data-i18n="about.focus2">M&A Advisory — Deal Structuring, Due Diligence</li>
+          <li data-i18n="about.focus3">Transaction Advisory Services</li>
+          <li data-i18n="about.focus4">Investment Banking — Coverage &amp; ECM/DCM</li>
+          <li data-i18n="about.focus5">Alternative Investments — Hedge Funds, Private Debt</li>
         </ul>
       </div>
 
       <div class="about-vision" style="margin-top: 24px; background: var(--dark);">
-        <h3 style="color: var(--accent);">International Exposure</h3>
+        <h3 style="color: var(--accent);" data-i18n="about.intlTitle">International Exposure</h3>
         <ul class="vision-list">
-          <li>Australia — Monash University, Road Trip (2024–25)</li>
-          <li>Cambodia — Humanitarian Mission (2022)</li>
-          <li>Ecuador — Humanitarian Construction (2019)</li>
-          <li>Russia — International Theatre Competition (2019)</li>
+          <li data-i18n="about.intl1">Australia — Monash University, Road Trip (2024–25)</li>
+          <li data-i18n="about.intl2">Cambodia — Humanitarian Mission (2022)</li>
+          <li data-i18n="about.intl3">Ecuador — Humanitarian Construction (2019)</li>
+          <li data-i18n="about.intl4">Russia — International Theatre Competition (2019)</li>
         </ul>
       </div>
     </div>
@@ -1384,16 +1432,16 @@
 <section id="contact">
   <div class="section-header reveal">
     <span class="section-num">06</span>
-    <h2 class="section-title">Let's Connect</h2>
+    <h2 class="section-title" data-i18n="contact.title">Let's Connect</h2>
     <div class="section-line"></div>
   </div>
 
   <div class="contact-layout">
     <div class="reveal">
-      <h3 class="contact-intro">
+      <h3 class="contact-intro" data-i18n-html="contact.intro">
         Looking for a <em>driven, curious</em> finance professional?
       </h3>
-      <p class="contact-p">
+      <p class="contact-p" data-i18n="contact.p">
         I'm always open to conversations with professionals in private equity, M&A, investment banking, or any area of finance and investing. Whether it's advice, an opportunity, or just an exchange of ideas — reach out.
       </p>
       <div class="contact-links">
@@ -1414,26 +1462,26 @@
 
     <div class="reveal">
       <div class="contact-form">
-        <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;">Leave a message or advice</div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;" data-i18n="contact.formTitle">Leave a message or advice</div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">First Name</label>
-            <input type="text" class="form-input" placeholder="Jane">
+            <label class="form-label" data-i18n="contact.firstName">First Name</label>
+            <input type="text" class="form-input" placeholder="Jane" data-i18n-placeholder="contact.phFirst">
           </div>
           <div class="form-group">
-            <label class="form-label">Last Name</label>
-            <input type="text" class="form-input" placeholder="Doe">
+            <label class="form-label" data-i18n="contact.lastName">Last Name</label>
+            <input type="text" class="form-input" placeholder="Doe" data-i18n-placeholder="contact.phLast">
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-input" placeholder="jane@firm.com">
+          <label class="form-label" data-i18n="contact.email">Email</label>
+          <input type="email" class="form-input" placeholder="jane@firm.com" data-i18n-placeholder="contact.phEmail">
         </div>
         <div class="form-group">
-          <label class="form-label">Message or Advice</label>
-          <textarea class="form-textarea" placeholder="Share a recommendation, opportunity, or insight..."></textarea>
+          <label class="form-label" data-i18n="contact.message">Message or Advice</label>
+          <textarea class="form-textarea" placeholder="Share a recommendation, opportunity, or insight..." data-i18n-placeholder="contact.phMessage"></textarea>
         </div>
-        <button class="form-submit" onclick="alert('Thanks for reaching out! Justin will get back to you.')">Send Message →</button>
+        <button class="form-submit" data-alert="Thanks for reaching out! Justin will get back to you." data-i18n-alert="contact.thanks" data-i18n="contact.send" onclick="alert(this.dataset.alert)">Send Message →</button>
       </div>
     </div>
   </div>
@@ -1445,14 +1493,229 @@
     © 2026 Justin Groleau · Québec, Canada<br>
     <span style="font-size:10px; color:var(--text-muted);">jgroleau00@hotmail.com · 581-372-9187</span>
   </div>
-  <div class="footer-quote">
+  <div class="footer-quote" data-i18n-html="footer.quote">
     "What students should be learning is how to value a business.<br>That's what investing is all about." — Warren Buffett
   </div>
   <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--text-muted); text-align:right;">
-    Finance · PE · M&A<br>
+    <span data-i18n="footer.tags">Finance · PE · M&A</span><br>
     <a href="http://www.linkedin.com/in/justin-groleau-71a150259" target="_blank" style="color:var(--gold); text-decoration:none;">LinkedIn →</a>
   </div>
 </footer>
+
+<script>
+  // French / English. The English stays in the markup (a build script of
+  // the 3D trail reads it); elements carry a key, FR holds the French:
+  //   data-i18n="key"             text, swapped as textContent
+  //   data-i18n-html="key"        text with inline markup, swapped as innerHTML
+  //   data-i18n-placeholder="key" the placeholder attribute
+  //   data-i18n-aria-label="key"  the aria-label attribute
+  //   data-i18n-alert="key"       data-alert, the text the contact button shows
+  // The English is read from the page the first time it is replaced, so
+  // switching back restores it exactly. The choice is shared with the 3D trail
+  // through localStorage['jg.lang'] ('fr' or 'en').
+  // French typography:   is the non-breaking space before : ; ! ? %
+  // and inside « ».
+  const FR = {
+    "meta.title": "Justin Groleau — Finance et investissement",
+
+    "nav.projects": "Projets",
+    "nav.skills": "Compétences",
+    "nav.journey": "Parcours",
+    "nav.about": "À propos",
+    "nav.langSwitch": "Passer à l'anglais",
+    "nav.trail": "Monde 3D",
+
+    "hero.tag": "Finance · Immobilier · M&A · IA",
+    "hero.role": "B.B.A. en finance et en gestion · Bishop's University",
+    "hero.desc": "Étudiant en finance et adjoint aux services bancaires personnels chez BMO, attiré par l'immobilier, les fusions et acquisitions et l'IA, avec une expérience internationale sur trois continents et une volonté inlassable de comprendre ce qui fait la valeur d'une entreprise.",
+    "hero.viewProjects": "Voir les projets",
+    "hero.getInTouch": "Me contacter",
+    "hero.trailKicker": "3D interactif · Welcome to My Trail",
+    "hero.trailLabel": "Entrer dans mon monde 3D →",
+    "hero.trailLine": "Parcourez un sentier forestier du Québec au fil de mon histoire.",
+    "stats.projects": "Projets",
+    "stats.continents": "Continents explorés",
+    "stats.bba": "Finance + gestion",
+    "quote.text": "« Ce que les étudiants devraient apprendre, c'est à évaluer une entreprise. C'est là toute l'essence de l'investissement. »",
+
+    "ticker.realEstate": "Immobilier et développement",
+    "ticker.dcf": "Évaluation par flux de trésorerie actualisés (DCF)",
+    "ticker.harvard": "Harvard · Placements alternatifs",
+    "ticker.monash": "Monash University · Australie",
+
+    "deals.title": "Projets",
+    "deals.melbourne.badge": "Immobilier",
+    "deals.melbourne.title": "Étude de cas : immeuble au centre-ville de Melbourne",
+    "deals.melbourne.desc": "Modèle de faisabilité complet pour l'acquisition d'un immeuble à usage mixte au centre-ville. Conçu dans Excel pour établir la viabilité de l'investissement par l'analyse de la VAN, du TRI et du TRI modifié. Des tables de sensibilité dynamiques font varier le taux d'occupation, les dépenses de rénovation et les hypothèses de sortie.",
+    "deals.melbourne.tagMetrics": "VAN / TRI / TRIM",
+    "deals.melbourne.tagSensitivity": "Analyse de sensibilité",
+    "deals.trail.title": "Welcome to My Trail : portfolio 3D",
+    "deals.trail.desc": "Un portfolio 3D interactif : un sentier forestier québécois et un chalet en bois rond où chaque panneau du sentier et chaque objet raconte une partie de mon histoire. Développé en React et Three.js avec l'aide de l'IA.",
+    "deals.tagAi": "Assisté par l'IA",
+    "deals.fund.badge": "Visualisation de données",
+    "deals.fund.desc": "Une visualisation interactive des fonds d'investissement de BMO, conçue pour les explorer et les comparer d'un coup d'œil.",
+    "deals.fund.tagFunds": "Fonds d'investissement",
+
+    "skills.title": "Compétences techniques et certifications",
+    "skills.groupFinance": "Modélisation et analyse financières",
+    "skills.dcf": "Évaluation et DCF",
+    "skills.excel": "Excel / modèles dynamiques",
+    "skills.realEstate": "Modélisation immobilière",
+    "skills.groupTools": "Outils et technologies",
+    "skills.msProject": "MS Project (avancé)",
+    "skills.ai": "Outils d'IA et d'automatisation",
+    "skills.languages": "Français / anglais (bilingue)",
+    "pct.80": "80 %",
+    "pct.85": "85 %",
+    "pct.72": "72 %",
+    "pct.90": "90 %",
+    "pct.75": "75 %",
+    "pct.100": "100 %",
+
+    "certs.ific": "Fonds d'investissement au Canada",
+    "certs.altInvest": "Placements alternatifs",
+    "certs.msProject": "MS Project avancé",
+    "certs.champlainInst": "Cégep Champlain",
+    "certs.champlain": "Diplôme d'études collégiales, profil Commerce",
+    "certs.inProgress": "En cours",
+    "certs.teluqInst": "TELUQ · depuis sept. 2026",
+    "certs.teluq": "Certificat en planification financière (Pl. Fin.)",
+    "certs.lavalInst": "Université Laval · janv. 2027",
+    "certs.laval": "MBA en gestion urbaine et immobilière",
+
+    "psych.title": "Profil psychométrique",
+    "psych.nova.label": "Évaluation 01 · 2024",
+    "psych.nova.title": "Profil NOVA",
+    "psych.nova.desc": "Un cadre psychométrique complet qui mesure les préférences comportementales, les motivations profondes, le type psychologique, le style de communication, les schémas cognitifs et les talents naturels. Conçu pour développer la connaissance de soi et l'intelligence relationnelle — un atout particulièrement précieux dans les milieux à forts enjeux où les relations sont déterminantes, comme le capital-investissement et les fusions et acquisitions.",
+    "psych.download": "Télécharger le rapport complet",
+    "psych.dynamix.label": "Évaluation 02 · 2026",
+    "psych.dynamix.title": "Profil Dynamix",
+    "psych.dynamix.desc": "Une évaluation psychométrique actualisée et élargie, qui offre une lecture plus approfondie des tendances comportementales, de la communication adaptative et des dynamiques interpersonnelles. Le rapport Dynamix montre comment je fonctionne sous pression, comment je collabore en équipe et comment j'obtiens des résultats dans des contextes au rythme soutenu et souvent ambigus.",
+
+    "journey.title": "Mon parcours",
+    "journey.past": "Passé et présent",
+    "journey.born.year": "9 juin 2004",
+    "journey.born.event": "Né à Beauceville, au Québec",
+    "journey.highSchool.event": "École secondaire Jésus-Marie · capitaine de l'équipe de hockey",
+    "journey.highSchool.detail": "Médaille du lieutenant-gouverneur (2021). À la tête d'une équipe de hockey compétitif, sans jamais négliger l'excellence scolaire.",
+    "journey.trips.event": "Voyage humanitaire en Équateur et théâtre en Russie",
+    "journey.trips.detail": "Construction de salles de bain avec JM Sans Frontière en Équateur. Représentation de mon école à un concours international de théâtre en Russie.",
+    "journey.cegep.event": "Cégep Champlain St. Lawrence",
+    "journey.cegep.detail": "Profil Commerce. Expérience humanitaire au Cambodge (2022) avec SIEC et la Société des Missions Étrangères.",
+    "journey.bishops.event": "Bishop's University · B.B.A. en gestion",
+    "journey.bishops.detail": "Début de mes études de premier cycle. En parallèle, obtention de la certification MS Project avancé et approfondissement de mes compétences techniques.",
+    "journey.harvard.year": "juin – juillet 2024",
+    "journey.harvard.detail": "Certificat en placements alternatifs. Première formation structurée sur le capital-investissement, les fonds de couverture et la dette privée.",
+    "journey.monash.event": "Monash University, Australie · séjour d'études à l'étranger",
+    "journey.monash.detail": "Un cours d'économie immobilière a fait de la finance une véritable passion. Conception de mon premier modèle financier complet. Périple en voiture à travers toute l'Australie — de la côte au désert.",
+    "journey.finance.event": "Ajout du B.B.A. en finance à Bishop's University",
+    "journey.finance.detail": "Double concentration en finance et en gestion. Entrée chez BMO comme caissier en octobre 2025.",
+    "journey.eeb.year": "mars 2026",
+    "journey.eeb.detail": "Programme SIJE. Création d'un réseau de pairs ambitieux et motivés. Renforcement du leadership, de la collaboration et de l'esprit entrepreneurial.",
+    "journey.bmo.year": "mai 2026",
+    "journey.bmo.event": "Fonds d'investissement au Canada (IFIC) · adjoint aux services bancaires personnels chez BMO",
+    "journey.bmo.detail": "Obtention de la certification Fonds d'investissement au Canada (CSI) et promotion de caissier à adjoint aux services bancaires personnels.",
+    "journey.teluq.year": "septembre 2026",
+    "journey.teluq.event": "Certificat en planification financière · TELUQ",
+    "journey.teluq.detail": "Premier pas vers le titre de Planificateur financier (Pl. Fin.).",
+    "journey.future": "À venir",
+    "journey.bba.year": "automne 2026",
+    "journey.bba.event": "B.B.A. en finance et en gestion — diplomation",
+    "journey.bba.detail": "Dernière étape du diplôme, menée de front avec mon poste d'adjoint aux services bancaires personnels chez BMO.",
+    "journey.mba.year": "janvier 2027",
+    "journey.mba.event": "MBA en gestion urbaine et immobilière · Université Laval",
+    "journey.mba.detail": "Faire de ma passion pour l'immobilier l'expertise nécessaire pour créer une valeur durable.",
+    "journey.longTerm.year": "À long terme",
+    "journey.longTerm.detail": "Obtenir le titre de Planificateur financier et mettre mon expertise en finance, en immobilier et en fusions et acquisitions au service de l'entreprise familiale.",
+
+    "about.title": "À propos de Justin",
+    "about.p1": "Je suis né à Beauceville, au Québec, le 9 juin 2004. Dès mon plus jeune âge, la discipline et la curiosité ont défini ma façon d'aborder le monde — que je sois capitaine d'une équipe de hockey compétitif, en train de construire des salles de bain en Équateur ou sur scène lors d'un concours international de théâtre en Russie.",
+    "about.p2": "Mon virage vers la finance a été concret, pas théorique. Un cours d'économie immobilière suivi à <strong>Monash University, en Australie</strong>, a transformé mon intérêt pour l'investissement en une véritable vocation. J'y ai bâti mon premier modèle financier complet, puis j'ai traversé le continent en voiture — de la côte au désert — pour rentrer au pays plus concentré, plus résilient et plus résolu que jamais.",
+    "about.p3": "Aujourd'hui, je termine un <strong>double B.B.A. en finance et en gestion à Bishop's University</strong> (diplomation à l'automne 2026) tout en travaillant chez <strong>BMO</strong> : caissier à partir d'octobre 2025, adjoint aux services bancaires personnels depuis mai 2026, le mois où j'ai obtenu la certification Fonds d'investissement au Canada (IFIC). En septembre 2026, j'ai entrepris le Certificat en planification financière de la TELUQ, en vue du titre de Pl. Fin., et en janvier 2027, je commencerai un <strong>MBA en gestion urbaine et immobilière à l'Université Laval</strong>.",
+    "about.p4": "<strong>Construction JL Groleau</strong> est l'entreprise de ma famille — construction, immobilier et développement en Beauce. J'y contribue par l'évaluation de projets, l'intégration de l'IA et l'amélioration des opérations, parce que je suis convaincu que les qualifications techniques et le jugement acquis sur le terrain doivent progresser de pair.",
+    "about.p5": "Au-delà de mon parcours, les fusions et acquisitions, les acquisitions par emprunt (LBO) et l'intelligence artificielle sont les sujets auxquels je reviens sans cesse — surtout l'IA, appliquée à la finance et à la création d'outils comme ce portfolio et le BMO Fund Explorer. Les conseils de professionnels de la finance sont toujours les bienvenus ; si vous avez une recommandation, j'aimerais sincèrement l'entendre.",
+    "about.focusTitle": "Domaines visés",
+    "about.focus1": "Capital-investissement — analyse d'acquisitions par emprunt (LBO), création de valeur en portefeuille",
+    "about.focus2": "Services-conseils en fusions et acquisitions — structuration de transactions, vérification diligente",
+    "about.focus3": "Services-conseils en transactions",
+    "about.focus4": "Banque d'investissement — couverture de clientèle et marchés des capitaux (ECM/DCM)",
+    "about.focus5": "Placements alternatifs — fonds de couverture, dette privée",
+    "about.intlTitle": "Expérience internationale",
+    "about.intl1": "Australie — Monash University, périple en voiture (2024-2025)",
+    "about.intl2": "Cambodge — mission humanitaire (2022)",
+    "about.intl3": "Équateur — construction humanitaire (2019)",
+    "about.intl4": "Russie — concours international de théâtre (2019)",
+
+    "contact.title": "Échangeons",
+    "contact.intro": "Vous cherchez un professionnel de la finance <em>motivé et curieux</em> ?",
+    "contact.p": "Je suis toujours ouvert à discuter avec des professionnels du capital-investissement, des fusions et acquisitions, de la banque d'investissement ou de tout autre domaine de la finance et de l'investissement. Un conseil, une occasion ou simplement un échange d'idées — n'hésitez pas à m'écrire.",
+    "contact.formTitle": "Laissez-moi un message ou un conseil",
+    "contact.firstName": "Prénom",
+    "contact.lastName": "Nom",
+    "contact.email": "Courriel",
+    "contact.message": "Message ou conseil",
+    "contact.phFirst": "Marie",
+    "contact.phLast": "Tremblay",
+    "contact.phEmail": "marie@entreprise.com",
+    "contact.phMessage": "Partagez une recommandation, une occasion ou une réflexion…",
+    "contact.send": "Envoyer le message →",
+    "contact.thanks": "Merci de votre message ! Justin vous répondra sous peu.",
+
+    "footer.quote": "« Ce que les étudiants devraient apprendre, c'est à évaluer une entreprise.<br>C'est là toute l'essence de l'investissement. » — Warren Buffett",
+    "footer.tags": "Finance · Capital-investissement · M&A",
+  };
+
+  const I18N_ATTRS = { i18nPlaceholder: 'placeholder', i18nAriaLabel: 'aria-label', i18nAlert: 'data-alert' };
+  const english = new Map(); // element -> { text | html | attribute: the English }
+  let currentLang = 'en';
+
+  function swap(el, slot, key, lang, read, write) {
+    let saved = english.get(el);
+    if (!saved) english.set(el, saved = {});
+    if (!(slot in saved)) saved[slot] = read();
+    write(lang === 'fr' && key in FR ? FR[key] : saved[slot]);
+  }
+
+  function applyLang(lang) {
+    lang = lang === 'fr' ? 'fr' : 'en';
+    document.querySelectorAll('[data-i18n]').forEach(el =>
+      swap(el, 'text', el.dataset.i18n, lang, () => el.textContent, v => { el.textContent = v; }));
+    document.querySelectorAll('[data-i18n-html]').forEach(el =>
+      swap(el, 'html', el.dataset.i18nHtml, lang, () => el.innerHTML, v => { el.innerHTML = v; }));
+    for (const [prop, attr] of Object.entries(I18N_ATTRS)) {
+      const selector = '[data-' + prop.replace(/[A-Z]/g, c => '-' + c.toLowerCase()) + ']';
+      document.querySelectorAll(selector).forEach(el =>
+        swap(el, attr, el.dataset[prop], lang, () => el.getAttribute(attr), v => { el.setAttribute(attr, v); }));
+    }
+    document.querySelectorAll('.nav-lang-opt').forEach(opt =>
+      opt.classList.toggle('is-active', opt.dataset.lang === lang));
+    document.documentElement.lang = lang;
+    currentLang = lang;
+  }
+
+  try {
+    applyLang(document.documentElement.lang); // set by the script in <head>
+  } finally {
+    document.documentElement.classList.remove('i18n-pending');
+  }
+
+  // Clicks only: typing in the contact form never switches the language.
+  document.getElementById('langToggle').addEventListener('click', () => {
+    const next = currentLang === 'fr' ? 'en' : 'fr';
+    try { localStorage.setItem('jg.lang', next); } catch (e) { /* private mode: this visit only */ }
+    applyLang(next);
+  });
+
+  // A choice made on the 3D trail meanwhile: Back to this page from the
+  // browser's cache, or another tab. Read again; nothing written.
+  function syncLang() {
+    let stored = null;
+    try { stored = localStorage.getItem('jg.lang'); } catch (e) {}
+    if ((stored === 'fr' || stored === 'en') && stored !== currentLang) applyLang(stored);
+  }
+  window.addEventListener('pageshow', e => { if (e.persisted) syncLang(); });
+  window.addEventListener('storage', e => { if (e.key === 'jg.lang') syncLang(); });
+</script>
 
 <script>
   // The way into the 3D world. Served at the site's root, the trail is next
