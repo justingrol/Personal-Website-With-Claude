@@ -47,19 +47,6 @@
     --frame: 22px;          /* the casing round the screen */
     --status-h: 34px;
     --keys-h: 64px;         /* the casing under the screen, keys included */
-    /* The page's earlier names, kept for the rules that still use them. */
-    --gold: var(--amber);
-    --gold-light: var(--amber);
-    --gold-dim: rgba(255, 178, 62, 0.14);
-    --dark: var(--glass);
-    --dark2: #21180A;
-    --dark3: #2A1F0E;
-    --dark4: #3A2B12;
-    --text: var(--amber);
-    --text-dim: var(--amber-soft);
-    --text-muted: var(--amber-dim);
-    --accent: var(--up);
-    --red: var(--down);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -157,16 +144,16 @@
   }
   .key:hover { background: linear-gradient(#EFE9D6, #CFC7AF); }
   .key:active { transform: translateY(2px); box-shadow: 0 1px 0 #8E8670, 0 2px 3px rgba(0, 0, 0, 0.25); }
-  .key-f { font: 400 17px/1 'VT323', ui-monospace, monospace; color: #6E6650; }
+  .key-f { font: 400 17px/1 'VT323', ui-monospace, monospace; color: #4F4A3A; }
   .keys-pinned .key { flex: 0 0 auto; min-width: 104px; }
   /* The way into the 3D world: the one amber keycap. */
   .key.nav-trail { background: linear-gradient(#FFD27A, #E8A43A); box-shadow: 0 3px 0 #9A6A1E, 0 4px 6px rgba(0, 0, 0, 0.25); }
-  .key.nav-trail .key-f { color: #6B4A12; }
+  .key.nav-trail .key-f { color: #4A320A; }
   /* Language switch: FR | EN, the language shown dark. */
   .key.nav-lang { flex-direction: row; font: 400 22px/1 'VT323', ui-monospace, monospace; min-width: 92px; }
-  .nav-lang-sep { margin: 0 6px; color: #8E8670; }
-  .nav-lang-opt { color: #8E8670; }
-  .nav-lang-opt.is-active { color: var(--key-text); }
+  .nav-lang-sep { margin: 0 6px; color: #4F4A3A; }
+  .nav-lang-opt { color: #4F4A3A; }
+  .nav-lang-opt.is-active { color: var(--key-text); text-decoration: underline; text-underline-offset: 3px; }
 
   /* Shared pieces. */
   .term-label {
@@ -472,7 +459,7 @@
     font: 400 15px/1.4 'IBM Plex Mono', ui-monospace, monospace;
     text-shadow: none;
   }
-  .form-input::placeholder, .form-textarea::placeholder { color: #7A5A26; }
+  .form-input::placeholder, .form-textarea::placeholder { color: #A57A33; }
   .form-input:focus, .form-textarea:focus { border-color: var(--amber); outline: 2px solid var(--amber); outline-offset: 1px; }
   .form-textarea { height: 120px; resize: vertical; }
   .form-submit { align-self: flex-start; }
