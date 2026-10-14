@@ -1705,6 +1705,16 @@
     try { localStorage.setItem('jg.lang', next); } catch (e) { /* private mode: this visit only */ }
     applyLang(next);
   });
+
+  // A choice made on the 3D trail meanwhile: Back to this page from the
+  // browser's cache, or another tab. Read again; nothing written.
+  function syncLang() {
+    let stored = null;
+    try { stored = localStorage.getItem('jg.lang'); } catch (e) {}
+    if ((stored === 'fr' || stored === 'en') && stored !== currentLang) applyLang(stored);
+  }
+  window.addEventListener('pageshow', e => { if (e.persisted) syncLang(); });
+  window.addEventListener('storage', e => { if (e.key === 'jg.lang') syncLang(); });
 </script>
 
 <script>
